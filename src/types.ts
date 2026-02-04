@@ -54,6 +54,26 @@ export interface DateCell {
 
   // Whether this cell is empty (leading/trailing days from other months)
   isEmpty: boolean;
+
+  // ===== Feature 002: Calendar Customization Extensions =====
+
+  // Whether this date has any notes (computed)
+  hasNotes?: boolean;
+
+  // Number of notes for this date (computed)
+  notesCount?: number;
+
+  // Whether this date is a weekend based on settings (computed)
+  isWeekend?: boolean;
+
+  // Whether this date has a holiday (computed)
+  isHoliday?: boolean;
+
+  // Holiday name if isHoliday is true (computed)
+  holidayName?: string;
+
+  // Holiday description if available (computed)
+  holidayDescription?: string;
 }
 
 export interface CalendarMonth {

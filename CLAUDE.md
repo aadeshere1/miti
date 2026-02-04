@@ -3,6 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2026-02-04
 
 ## Active Technologies
+- TypeScript → JavaScript (ES2020+) + @remotemerge/nepali-date-converter (1.8 KB), Vite (build only) (002-calendar-customization)
+- Browser localStorage for notes, settings, and holiday data (002-calendar-customization)
 
 - TypeScript (compiled to ES2020+ JavaScript) - Resolved in research.md: type safety critical for date calculations, zero runtime overhead + @remotemerge/nepali-date-converter (1.8 KB gzipped) - Resolved in research.md: smallest, accurate, TypeScript-supported library; no framework (vanilla JS output) (001-calendar-month-view)
 
@@ -23,6 +25,7 @@ npm test && npm run lint
 TypeScript (compiled to ES2020+ JavaScript) - Resolved in research.md: type safety critical for date calculations, zero runtime overhead: Follow standard conventions
 
 ## Recent Changes
+- 002-calendar-customization: Added TypeScript → JavaScript (ES2020+) + @remotemerge/nepali-date-converter (1.8 KB), Vite (build only)
 
 - 001-calendar-month-view: Added TypeScript (compiled to ES2020+ JavaScript) - Resolved in research.md: type safety critical for date calculations, zero runtime overhead + @remotemerge/nepali-date-converter (1.8 KB gzipped) - Resolved in research.md: smallest, accurate, TypeScript-supported library; no framework (vanilla JS output)
 
