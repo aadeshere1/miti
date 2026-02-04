@@ -66,6 +66,8 @@ function init(): void {
   // Register settings change handler
   settingsModal.onSettingsChange(() => {
     applySidebarSettings();
+    // T070: Re-render calendar to apply weekend highlighting changes
+    render();
   });
 
   // Register notes change handler for multi-tab sync
@@ -77,9 +79,11 @@ function init(): void {
     }
   });
 
-  // T059: Register settings change handler for multi-tab sync
+  // T059 & T071: Register settings change handler for multi-tab sync
   onSettingsChange(() => {
     applySidebarSettings();
+    // Re-render calendar for weekend highlighting changes
+    render();
   });
 
   // Set up navigation event listeners
