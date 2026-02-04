@@ -5,8 +5,9 @@ import { generateCalendarGrid, renderCalendarGrid, setNotesModal, refreshCalenda
 import { renderWeekdayHeaders } from './components/WeekdayHeaders';
 import { renderMonthHeader } from './components/MonthHeader';
 import { NotesModal } from './notes/notes-modal';
-import { NotesSidebar } from './sidebar/sidebar-component';
-import { onNotesChange } from './utils/storage-sync';
+import { NotesSidebar, applySidebarSettings } from './sidebar/sidebar-component';
+import { SettingsModal } from './settings/settings-modal';
+import { onNotesChange, onSettingsChange } from './utils/storage-sync';
 import { convertGregorianToNepali } from './calendar/conversions';
 
 // Global sidebar instance
@@ -56,6 +57,17 @@ function init(): void {
     }
   });
 
+  // T058: Initialize settings modal
+  const settingsModal = new SettingsModal();
+
+  // T056: Apply sidebar settings on initialization
+  applySidebarSettings();
+
+  // Register settings change handler
+  settingsModal.onSettingsChange(() => {
+    applySidebarSettings();
+  });
+
   // Register notes change handler for multi-tab sync
   onNotesChange(() => {
     refreshCalendar();
@@ -63,6 +75,11 @@ function init(): void {
     if (sidebarInstance) {
       sidebarInstance.refresh();
     }
+  });
+
+  // T059: Register settings change handler for multi-tab sync
+  onSettingsChange(() => {
+    applySidebarSettings();
   });
 
   // Set up navigation event listeners
@@ -88,6 +105,14 @@ function init(): void {
     todayButton.addEventListener('click', () => {
       navigateToToday();
       render();
+    });
+  }
+
+  // T057: Set up settings button event listener
+  const settingsButton = document.getElementById('settings-button');
+  if (settingsButton) {
+    settingsButton.addEventListener('click', () => {
+      settingsModal.open();
     });
   }
 

@@ -4,6 +4,7 @@ import { getNotesForMonth } from '../notes/notes-storage';
 import type { Note } from '../notes/notes-types';
 import type { NotesModal } from '../notes/notes-modal';
 import { navigateToDate } from '../state/calendar-state';
+import { getSettings } from '../settings/settings-storage';
 
 /**
  * NotesSidebar class manages the monthly notes overview sidebar
@@ -159,5 +160,28 @@ export class NotesSidebar {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+  }
+}
+
+/**
+ * Apply sidebar settings from storage (T052)
+ * Updates sidebar position and visibility based on user settings
+ */
+export function applySidebarSettings(): void {
+  const settings = getSettings();
+  const appContainer = document.getElementById('app');
+  const sidebar = document.getElementById('notes-sidebar');
+
+  if (!appContainer || !sidebar) return;
+
+  // Apply position class (T054)
+  appContainer.classList.remove('position-left', 'position-right');
+  appContainer.classList.add(`position-${settings.sidebarPosition}`);
+
+  // Apply visibility (T055)
+  if (settings.sidebarEnabled) {
+    sidebar.classList.remove('sidebar-hidden');
+  } else {
+    sidebar.classList.add('sidebar-hidden');
   }
 }

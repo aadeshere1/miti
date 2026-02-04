@@ -46,6 +46,32 @@
   transform: scale(0.95);
 }
 
+/* Settings Button */
+.settings-button {
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  color: #333;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.settings-button:hover {
+  background: #e0e0e0;
+  transform: rotate(45deg);
+}
+
+.settings-button:active {
+  transform: scale(0.95) rotate(45deg);
+}
+
 /* Weekday Headers */
 .weekday-headers {
   display: grid;
