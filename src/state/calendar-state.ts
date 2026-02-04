@@ -50,3 +50,21 @@ export function navigateToPreviousMonth(): void {
 export function navigateToToday(): void {
   state.currentMonth = new Date(state.today);
 }
+
+/**
+ * Navigates to a specific Nepali date
+ * @param year Nepali year
+ * @param month Nepali month (1-12)
+ * @param day Nepali day
+ */
+export function navigateToDate(year: number, month: number, day: number): void {
+  // Convert Nepali date to Gregorian to set the current month
+  // For now, we'll use a simplified approach - just navigate to the month
+  // The actual date conversion will be handled by the calendar conversion functions
+  const { convertNepaliToGregorian } = require('../calendar/conversions');
+  const gregorianDate = convertNepaliToGregorian({ year, month, day, dayOfWeek: 0 });
+  state.currentMonth = gregorianDate;
+
+  // Trigger re-render by importing and calling render from main
+  // This will be handled by the caller
+}

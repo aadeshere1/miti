@@ -11,6 +11,12 @@ export function renderDateCell(cell: DateCell): HTMLElement {
   const cellElement = document.createElement('div');
   cellElement.className = 'date-cell';
 
+  // Add data attribute for date identification
+  const year = cell.nepaliDate.year;
+  const month = String(cell.nepaliDate.month).padStart(2, '0');
+  const day = String(cell.nepaliDate.day).padStart(2, '0');
+  cellElement.dataset.nepaliDate = `${year}-${month}-${day}`;
+
   // Add classes for styling
   if (cell.isToday) {
     cellElement.classList.add('today');

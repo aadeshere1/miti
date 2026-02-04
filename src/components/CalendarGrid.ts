@@ -5,6 +5,28 @@ import { getNepaliMonthName, getNepaliMonthDays, getFirstDayOfNepaliMonth } from
 import { isSameDay } from '../calendar/date-utils';
 import type { CalendarMonth, DateCell, NepaliDate } from '../types';
 import { renderDateCell } from './DateCell';
+import { addNotesIndicator } from '../notes/notes-ui';
+import type { NotesModal } from '../notes/notes-modal';
+
+// Global reference to notes modal (set from main.ts)
+let notesModalInstance: NotesModal | null = null;
+
+/**
+ * Set the notes modal instance for calendar integration
+ */
+export function setNotesModal(modal: NotesModal): void {
+  notesModalInstance = modal;
+}
+
+/**
+ * Format Nepali date as YYYY-MM-DD string
+ */
+function formatNepaliDate(nepaliDate: NepaliDate): string {
+  const year = nepaliDate.year;
+  const month = String(nepaliDate.month).padStart(2, '0');
+  const day = String(nepaliDate.day).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 /**
  * Generates a complete calendar month grid with date cells
@@ -129,6 +151,49 @@ export function renderCalendarGrid(calendarMonth: CalendarMonth): void {
   // Render each date cell
   calendarMonth.cells.forEach(cell => {
     const cellElement = renderDateCell(cell);
+    const nepaliDateString = formatNepaliDate(cell.nepaliDate);
+
+    // T028: Add notes indicator if date has notes
+    addNotesIndicator(cellElement, nepaliDateString);
+
+    // T029: Add click handler to open notes modal
+    cellElement.addEventListener('click', () => {
+      if (notesModalInstance) {
+        notesModalInstance.openForDate(nepaliDateString);
+      }
+    });
+
+    // Add pointer cursor to indicate clickability
+    cellElement.style.cursor = 'pointer';
+
     gridElement.appendChild(cellElement);
+  });
+}
+
+/**
+ * Refresh notes indicators for the current calendar
+ * Call this after notes are added/edited/deleted (T031)
+ */
+export function refreshCalendar(): void {
+  const gridElement = document.getElementById('calendar-grid');
+  if (!gridElement) return;
+
+  // Get all date cells
+  const dateCells = gridElement.querySelectorAll('.date-cell');
+
+  dateCells.forEach(cell => {
+    const cellElement = cell as HTMLElement;
+    const nepaliDateString = cellElement.dataset.nepaliDate;
+
+    if (nepaliDateString) {
+      // Remove existing indicator
+      const existingIndicator = cellElement.querySelector('.notes-indicator');
+      if (existingIndicator) {
+        existingIndicator.remove();
+      }
+
+      // Re-add indicator if date still has notes
+      addNotesIndicator(cellElement, nepaliDateString);
+    }
   });
 }

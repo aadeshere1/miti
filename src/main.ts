@@ -1,9 +1,16 @@
 // Main application entry point
 
 import { initializeState, getState, navigateToNextMonth, navigateToPreviousMonth, navigateToToday } from './state/calendar-state';
-import { generateCalendarGrid, renderCalendarGrid } from './components/CalendarGrid';
+import { generateCalendarGrid, renderCalendarGrid, setNotesModal, refreshCalendar } from './components/CalendarGrid';
 import { renderWeekdayHeaders } from './components/WeekdayHeaders';
 import { renderMonthHeader } from './components/MonthHeader';
+import { NotesModal } from './notes/notes-modal';
+import { NotesSidebar } from './sidebar/sidebar-component';
+import { onNotesChange } from './utils/storage-sync';
+import { convertGregorianToNepali } from './calendar/conversions';
+
+// Global sidebar instance
+let sidebarInstance: NotesSidebar | null = null;
 
 /**
  * Main render function that orchestrates all rendering
@@ -18,6 +25,12 @@ export function render(): void {
   renderWeekdayHeaders();
   renderMonthHeader(calendarMonth.nepaliMonth, calendarMonth.nepaliYear, calendarMonth.monthName);
   renderCalendarGrid(calendarMonth);
+
+  // T041: Update sidebar when month changes
+  if (sidebarInstance) {
+    const nepaliDate = convertGregorianToNepali(state.currentMonth);
+    sidebarInstance.render(nepaliDate.year, nepaliDate.month);
+  }
 }
 
 /**
@@ -26,6 +39,31 @@ export function render(): void {
 function init(): void {
   // Initialize state
   initializeState();
+
+  // Initialize notes modal
+  const notesModal = new NotesModal();
+  setNotesModal(notesModal);
+
+  // T040: Initialize notes sidebar
+  sidebarInstance = new NotesSidebar();
+  sidebarInstance.setNotesModal(notesModal);
+  sidebarInstance.setRenderCallback(render);
+
+  // T042: Register sidebar refresh when notes change in modal
+  notesModal.onNotesChange(() => {
+    if (sidebarInstance) {
+      sidebarInstance.refresh();
+    }
+  });
+
+  // Register notes change handler for multi-tab sync
+  onNotesChange(() => {
+    refreshCalendar();
+    // T043: Refresh sidebar on notes change
+    if (sidebarInstance) {
+      sidebarInstance.refresh();
+    }
+  });
 
   // Set up navigation event listeners
   const prevButton = document.getElementById('prev-month');
