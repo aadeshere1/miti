@@ -7,6 +7,7 @@ import { renderMonthHeader } from './components/MonthHeader';
 import { NotesModal } from './notes/notes-modal';
 import { NotesSidebar, applySidebarSettings } from './sidebar/sidebar-component';
 import { SettingsModal } from './settings/settings-modal';
+import { themeManager } from './theme/theme-manager';
 import { onNotesChange, onSettingsChange } from './utils/storage-sync';
 import { convertGregorianToNepali } from './calendar/conversions';
 
@@ -63,9 +64,14 @@ function init(): void {
   // T056: Apply sidebar settings on initialization
   applySidebarSettings();
 
+  // T088: Apply theme on initialization
+  themeManager.applyTheme();
+
   // Register settings change handler
   settingsModal.onSettingsChange(() => {
     applySidebarSettings();
+    // T089: Apply theme immediately for visual feedback
+    themeManager.applyTheme();
     // T070: Re-render calendar to apply weekend highlighting changes
     render();
   });
@@ -82,6 +88,8 @@ function init(): void {
   // T059 & T071: Register settings change handler for multi-tab sync
   onSettingsChange(() => {
     applySidebarSettings();
+    // T090: Apply theme on multi-tab sync
+    themeManager.applyTheme();
     // Re-render calendar for weekend highlighting changes
     render();
   });
