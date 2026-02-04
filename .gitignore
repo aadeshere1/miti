@@ -8,6 +8,7 @@ build/
 *.js
 *.js.map
 !vite.config.ts
+!scripts/*.js
 
 # TypeScript
 *.tsbuildinfo
