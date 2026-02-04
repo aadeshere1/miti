@@ -1,6 +1,7 @@
 // Calendar state management
 
 import { adjustMonth } from '../calendar/date-utils';
+import { convertNepaliToGregorian } from '../calendar/conversions';
 import type { CalendarState } from '../types';
 
 // Global state
@@ -59,9 +60,6 @@ export function navigateToToday(): void {
  */
 export function navigateToDate(year: number, month: number, day: number): void {
   // Convert Nepali date to Gregorian to set the current month
-  // For now, we'll use a simplified approach - just navigate to the month
-  // The actual date conversion will be handled by the calendar conversion functions
-  const { convertNepaliToGregorian } = require('../calendar/conversions');
   const gregorianDate = convertNepaliToGregorian({ year, month, day, dayOfWeek: 0 });
   state.currentMonth = gregorianDate;
 
