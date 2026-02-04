@@ -9,9 +9,10 @@ import { NotesSidebar, applySidebarSettings } from './sidebar/sidebar-component'
 import { SettingsModal } from './settings/settings-modal';
 import { themeManager } from './theme/theme-manager';
 import { loadHolidays } from './holidays/holidays-loader';
-import { showErrorNotification } from './utils/notifications';
+import { showErrorNotification, showLoadingIndicator, hideLoadingIndicator } from './utils/notifications';
 import { onNotesChange, onSettingsChange } from './utils/storage-sync';
 import { convertGregorianToNepali } from './calendar/conversions';
+import { checkStorageUsage } from './utils/storage';
 
 // Global sidebar instance
 let sidebarInstance: NotesSidebar | null = null;
@@ -44,6 +45,9 @@ function init(): void {
   // Initialize state
   initializeState();
 
+  // T118: Check localStorage usage on startup and warn if over 80%
+  checkStorageUsage();
+
   // Initialize notes modal
   const notesModal = new NotesModal();
   setNotesModal(notesModal);
@@ -69,13 +73,20 @@ function init(): void {
   // T088: Apply theme on initialization
   themeManager.applyTheme();
 
+  // T117: Show loading indicator for holiday data
+  showLoadingIndicator('Loading holidays...');
+
   // T103: Load holidays from JSON with error handling
   loadHolidays('/holidays/holidays.json')
     .then(() => {
+      // T117: Hide loading indicator
+      hideLoadingIndicator();
       // Holidays loaded successfully, re-render to show holiday highlighting
       render();
     })
     .catch((error) => {
+      // T117: Hide loading indicator
+      hideLoadingIndicator();
       // T107: Show user-friendly error message
       console.error('Failed to load holidays:', error);
       showErrorNotification(
@@ -148,6 +159,28 @@ function init(): void {
   // Render initial calendar
   render();
 }
+
+// T124: Global error handler for unhandled exceptions
+window.addEventListener('error', (event) => {
+  console.error('Unhandled error:', event.error);
+  showErrorNotification(
+    'An unexpected error occurred. The calendar will continue to function normally.',
+    5000
+  );
+  // Prevent default error handling
+  event.preventDefault();
+});
+
+// T124: Global handler for unhandled promise rejections
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('Unhandled promise rejection:', event.reason);
+  showErrorNotification(
+    'An unexpected error occurred. The calendar will continue to function normally.',
+    5000
+  );
+  // Prevent default rejection handling
+  event.preventDefault();
+});
 
 // Start the application when DOM is ready
 init();

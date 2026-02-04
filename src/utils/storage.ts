@@ -112,3 +112,41 @@ export function isLocalStorageAvailable(): boolean {
     return false;
   }
 }
+
+/**
+ * Check localStorage usage and warn if at or over 80% capacity (T118)
+ * @returns true if usage is within acceptable limits, false if at/over 80%
+ */
+export function checkStorageUsage(): boolean {
+  const { used, total, percentage } = getStorageEstimate();
+
+  if (percentage >= 80) {
+    const usedMB = (used / 1024 / 1024).toFixed(2);
+    const totalMB = (total / 1024 / 1024).toFixed(2);
+
+    console.warn(
+      `⚠️  localStorage usage is at ${percentage.toFixed(1)}% ` +
+      `(${usedMB} MB / ${totalMB} MB). ` +
+      `Consider deleting old notes or clearing theme images to free up space.`
+    );
+
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Format bytes to human-readable string (T118)
+ * @param bytes Number of bytes
+ * @returns Formatted string (e.g., "1.5 MB", "512 KB")
+ */
+export function formatBytes(bytes: number): string {
+  if (bytes === 0) return '0 Bytes';
+
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}

@@ -1,0 +1,140 @@
+{
+  "_instructions": {
+    "description": "Holiday configuration template for Miti calendar",
+    "format": "Each year (Nepali BS) contains an array of holiday objects",
+    "fields": {
+      "name": "Holiday name (preferably in both Nepali and English script)",
+      "date": "Date in YYYY-MM-DD format using Nepali (Bikram Sambat) calendar",
+      "description": "Brief description of the holiday"
+    },
+    "usage": [
+      "1. Copy this template to create your custom holidays file",
+      "2. Replace the example holidays with your own",
+      "3. Remove this _instructions object before using",
+      "4. Save as holidays.json or custom-holidays.json",
+      "5. Place in public/holidays/ directory",
+      "6. Rebuild the application: npm run build:extension"
+    ],
+    "notes": [
+      "Dates must be in Nepali (Bikram Sambat) calendar format",
+      "Year keys should be strings (e.g., \"2082\", \"2083\")",
+      "Holiday dates within each year must be valid Nepali calendar dates",
+      "You can include multiple years in a single file",
+      "Use Devanagari script for Nepali names for better visual appearance"
+    ]
+  },
+  "2082": [
+    {
+      "name": "नयाँ वर्ष (New Year)",
+      "date": "2082-01-01",
+      "description": "Nepali New Year - Beginning of Bikram Sambat 2082"
+    },
+    {
+      "name": "लोकतन्त्र दिवस (Democracy Day)",
+      "date": "2082-01-07",
+      "description": "Celebration of the restoration of democracy in Nepal"
+    },
+    {
+      "name": "बुद्ध जयन्ती (Buddha Jayanti)",
+      "date": "2082-02-01",
+      "description": "Birth anniversary of Gautama Buddha"
+    },
+    {
+      "name": "गणतन्त्र दिवस (Republic Day)",
+      "date": "2082-02-15",
+      "description": "Celebration of Nepal becoming a republic"
+    },
+    {
+      "name": "दशैं - घटस्थापना (Dashain - Ghatasthapana)",
+      "date": "2082-06-17",
+      "description": "Dashain festival begins - 15-day celebration"
+    },
+    {
+      "name": "दशैं - फूलपाती (Dashain - Fulpati)",
+      "date": "2082-06-23",
+      "description": "Dashain Day 7 - Sacred flowers and leaves ritual"
+    },
+    {
+      "name": "दशैं - महा अष्टमी (Dashain - Maha Astami)",
+      "date": "2082-06-24",
+      "description": "Dashain Day 8 - Great Eighth Day"
+    },
+    {
+      "name": "दशैं - महा नवमी (Dashain - Maha Navami)",
+      "date": "2082-06-25",
+      "description": "Dashain Day 9 - Great Ninth Day"
+    },
+    {
+      "name": "दशैं - विजया दशमी (Dashain - Vijaya Dashami)",
+      "date": "2082-06-26",
+      "description": "Dashain Day 10 - Victory Day (Main Day)"
+    },
+    {
+      "name": "दशैं - एकादशी (Dashain - Ekadashi)",
+      "date": "2082-06-27",
+      "description": "Dashain Day 11 - Eleventh Day"
+    },
+    {
+      "name": "दशैं - द्वादशी (Dashain - Dwadashi)",
+      "date": "2082-06-28",
+      "description": "Dashain Day 12 - Twelfth Day"
+    },
+    {
+      "name": "दशैं - त्रयोदशी (Dashain - Trayodashi)",
+      "date": "2082-06-29",
+      "description": "Dashain Day 13 - Thirteenth Day"
+    },
+    {
+      "name": "दशैं - चतुर्दशी (Dashain - Chaturdashi)",
+      "date": "2082-06-30",
+      "description": "Dashain Day 14 - Fourteenth Day"
+    },
+    {
+      "name": "दशैं - पूर्णिमा (Dashain - Purnima)",
+      "date": "2082-07-01",
+      "description": "Dashain Day 15 - Full Moon Day (Kojagrat Purnima)"
+    },
+    {
+      "name": "तिहार - धनतेरस (Tihar - Dhanteras)",
+      "date": "2082-08-13",
+      "description": "Tihar Day 1 - Crow Festival (Kaag Tihar)"
+    },
+    {
+      "name": "तिहार - कुकुर पूजा (Tihar - Kukur Puja)",
+      "date": "2082-08-14",
+      "description": "Tihar Day 2 - Dog Worship Day"
+    },
+    {
+      "name": "तिहार - लक्ष्मी पूजा (Tihar - Laxmi Puja)",
+      "date": "2082-08-15",
+      "description": "Tihar Day 3 - Goddess Laxmi Worship (Main Day)"
+    },
+    {
+      "name": "तिहार - गोवर्धन पूजा (Tihar - Govardhan Puja)",
+      "date": "2082-08-16",
+      "description": "Tihar Day 4 - Ox Worship / Mha Puja (Newari New Year)"
+    },
+    {
+      "name": "तिहार - भाइटीका (Tihar - Bhai Tika)",
+      "date": "2082-08-17",
+      "description": "Tihar Day 5 - Brother-Sister Festival (Main Day)"
+    },
+    {
+      "name": "छठ पर्व (Chhath Parva)",
+      "date": "2082-08-20",
+      "description": "Ancient Hindu Vedic festival dedicated to Sun God"
+    }
+  ],
+  "2083": [
+    {
+      "name": "नयाँ वर्ष (New Year)",
+      "date": "2083-01-01",
+      "description": "Nepali New Year - Beginning of Bikram Sambat 2083"
+    },
+    {
+      "name": "लोकतन्त्र दिवस (Democracy Day)",
+      "date": "2083-01-07",
+      "description": "Celebration of the restoration of democracy in Nepal"
+    }
+  ]
+}

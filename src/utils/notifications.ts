@@ -43,3 +43,30 @@ export function hideErrorNotification(): void {
     notification.style.display = 'none';
   }
 }
+
+/**
+ * Show loading indicator (T117)
+ * @param message Loading message to display
+ */
+export function showLoadingIndicator(message: string = 'Loading...'): void {
+  const indicator = document.getElementById('loading-indicator');
+  const textElement = indicator?.querySelector('.loading-text');
+
+  if (!indicator) return;
+
+  if (textElement) {
+    textElement.textContent = message;
+  }
+
+  indicator.style.display = 'flex';
+}
+
+/**
+ * Hide loading indicator (T117)
+ */
+export function hideLoadingIndicator(): void {
+  const indicator = document.getElementById('loading-indicator');
+  if (indicator) {
+    indicator.style.display = 'none';
+  }
+}
