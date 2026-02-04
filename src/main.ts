@@ -8,6 +8,8 @@ import { NotesModal } from './notes/notes-modal';
 import { NotesSidebar, applySidebarSettings } from './sidebar/sidebar-component';
 import { SettingsModal } from './settings/settings-modal';
 import { themeManager } from './theme/theme-manager';
+import { loadHolidays } from './holidays/holidays-loader';
+import { showErrorNotification } from './utils/notifications';
 import { onNotesChange, onSettingsChange } from './utils/storage-sync';
 import { convertGregorianToNepali } from './calendar/conversions';
 
@@ -66,6 +68,21 @@ function init(): void {
 
   // T088: Apply theme on initialization
   themeManager.applyTheme();
+
+  // T103: Load holidays from JSON with error handling
+  loadHolidays('/holidays/holidays.json')
+    .then(() => {
+      // Holidays loaded successfully, re-render to show holiday highlighting
+      render();
+    })
+    .catch((error) => {
+      // T107: Show user-friendly error message
+      console.error('Failed to load holidays:', error);
+      showErrorNotification(
+        'Unable to load holiday data. Calendar will function normally without holiday highlighting.',
+        8000
+      );
+    });
 
   // Register settings change handler
   settingsModal.onSettingsChange(() => {

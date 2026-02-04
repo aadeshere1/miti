@@ -9,6 +9,7 @@ import {
   updateNote,
   deleteNote,
 } from './notes-storage';
+import { getHolidayForDate } from '../holidays/holidays-storage';
 
 export class NotesModal extends Modal {
   private currentDate: string | null = null;
@@ -50,6 +51,7 @@ export class NotesModal extends Modal {
         <button class="modal-close" aria-label="Close modal">×</button>
       </div>
       <div class="modal-body">
+        <div id="holiday-info" class="holiday-info" style="display: none;"></div>
         <div id="notes-list"></div>
         <div class="modal-form-group">
           <label class="modal-label" for="note-text">
@@ -94,10 +96,40 @@ export class NotesModal extends Modal {
     const notes = getNotesForDate(this.currentDate);
     this.renderNotesList(notes);
 
+    // T105: Display holiday description if available
+    this.displayHolidayInfo(this.currentDate);
+
     // Update modal title with date
     const titleEl = this.getContentElement().querySelector('#notes-modal-title');
     if (titleEl) {
       titleEl.textContent = `Notes for ${this.currentDate}`;
+    }
+  }
+
+  /**
+   * Display holiday information if date is a holiday (T105)
+   * @param date Date in format YYYY-MM-DD
+   */
+  private displayHolidayInfo(date: string): void {
+    const holidayInfoEl = this.getContentElement().querySelector('#holiday-info') as HTMLElement;
+    if (!holidayInfoEl) return;
+
+    const holiday = getHolidayForDate(date);
+
+    if (holiday) {
+      holidayInfoEl.style.display = 'block';
+      holidayInfoEl.innerHTML = `
+        <div class="holiday-badge">
+          <span class="holiday-icon">🎉</span>
+          <div class="holiday-details">
+            <div class="holiday-title">${this.escapeHtml(holiday.name)}</div>
+            ${holiday.description ? `<div class="holiday-description">${this.escapeHtml(holiday.description)}</div>` : ''}
+          </div>
+        </div>
+      `;
+    } else {
+      holidayInfoEl.style.display = 'none';
+      holidayInfoEl.innerHTML = '';
     }
   }
 
