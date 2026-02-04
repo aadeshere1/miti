@@ -7,6 +7,8 @@ import type { CalendarMonth, DateCell, NepaliDate } from '../types';
 import { renderDateCell } from './DateCell';
 import { addNotesIndicator } from '../notes/notes-ui';
 import type { NotesModal } from '../notes/notes-modal';
+import { isWeekendDay } from '../settings/settings-storage';
+import { getHolidayForDate } from '../holidays/holidays-storage';
 
 // Global reference to notes modal (set from main.ts)
 let notesModalInstance: NotesModal | null = null;
@@ -152,6 +154,24 @@ export function renderCalendarGrid(calendarMonth: CalendarMonth): void {
   calendarMonth.cells.forEach(cell => {
     const cellElement = renderDateCell(cell);
     const nepaliDateString = formatNepaliDate(cell.nepaliDate);
+
+    // T061: Add weekend class if date is a weekend
+    if (isWeekendDay(cell.gregorianDate.dayOfWeek)) {
+      cellElement.classList.add('weekend');
+    }
+
+    // T063-T064: Add holiday class and name if date is a holiday
+    const holiday = getHolidayForDate(nepaliDateString);
+    if (holiday) {
+      cellElement.classList.add('holiday');
+
+      // Add holiday name display
+      const holidayNameElement = document.createElement('div');
+      holidayNameElement.className = 'holiday-name';
+      holidayNameElement.textContent = holiday.name;
+      holidayNameElement.title = holiday.description || holiday.name;
+      cellElement.appendChild(holidayNameElement);
+    }
 
     // T028: Add notes indicator if date has notes
     addNotesIndicator(cellElement, nepaliDateString);
