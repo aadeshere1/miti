@@ -1,0 +1,436 @@
+/* Calendar-specific styles */
+
+.calendar-container {
+  max-width: 800px;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+/* Month Header */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 0 0.5rem;
+}
+
+.month-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.nav-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  color: #333;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.nav-button:hover {
+  background: #e0e0e0;
+}
+
+.nav-button:active {
+  transform: scale(0.95);
+}
+
+/* Settings Button */
+.settings-button {
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  color: #333;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.settings-button:hover {
+  background: #e0e0e0;
+  transform: rotate(45deg);
+}
+
+.settings-button:active {
+  transform: scale(0.95) rotate(45deg);
+}
+
+/* Weekday Headers */
+.weekday-headers {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.weekday-header {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #666;
+  padding: 0.5rem;
+  text-transform: uppercase;
+}
+
+/* Calendar Grid - 7 columns, fixed height with dynamic rows */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(auto-fill, 1fr);
+  gap: 0.5rem;
+  /* Fixed height for consistency - accommodates 6 rows */
+  min-height: 480px;
+  height: 480px;
+}
+
+/* Date Cell */
+.date-cell {
+  /* Remove aspect-ratio to allow grid to control height */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.75rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+  min-height: 60px;
+}
+
+.date-cell:hover {
+  background: #f9f9f9;
+  border-color: #0066cc;
+}
+
+/* Nepali Date (prominent, center) */
+.nepali-date {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Gregorian Date (bottom right, smaller) */
+.gregorian-date {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.75rem;
+  color: #999;
+  font-weight: 400;
+}
+
+/* Today Highlighting */
+.date-cell.today {
+  background: #0066cc;
+  border-color: #0066cc;
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+}
+
+.date-cell.today .nepali-date {
+  color: white;
+}
+
+.date-cell.today .gregorian-date {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.date-cell.today:hover {
+  background: #0052a3;
+}
+
+/* Dimmed appearance for adjacent month dates */
+.date-cell.other-month {
+  opacity: 0.4;
+  background: #fafafa;
+}
+
+.date-cell.other-month:hover {
+  opacity: 0.6;
+  background: #f5f5f5;
+}
+
+/* Weekend Highlighting (T062) */
+.date-cell.weekend .nepali-date {
+  color: #dc2626;
+}
+
+.date-cell.weekend .gregorian-date {
+  color: #dc2626;
+}
+
+/* Today button takes precedence over weekend coloring */
+.date-cell.today.weekend .nepali-date,
+.date-cell.today.weekend .gregorian-date {
+  color: white;
+}
+
+/* Holiday Highlighting (T065) */
+.date-cell.holiday .nepali-date {
+  color: #dc2626;
+}
+
+.date-cell.holiday .gregorian-date {
+  color: #dc2626;
+}
+
+/* Holiday Name Display (T066) */
+.holiday-name {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  font-size: 0.625rem;
+  color: #dc2626;
+  font-weight: 500;
+  max-width: calc(100% - 0.5rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+/* Today button takes precedence over holiday coloring */
+.date-cell.today.holiday .nepali-date,
+.date-cell.today.holiday .gregorian-date,
+.date-cell.today.holiday .holiday-name {
+  color: white;
+}
+
+/* T067: Ensure notes indicator remains visible on holiday/weekend dates */
+.notes-indicator {
+  z-index: 2;
+}
+
+/* Today Button */
+.today-button {
+  margin-top: 2rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: #0066cc;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.today-button:hover {
+  background: #0052a3;
+}
+
+.today-button:active {
+  transform: scale(0.98);
+}
+
+/* Responsive Design for Mobile (320px-640px) */
+@media (max-width: 640px) {
+  .calendar-container {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .calendar-header {
+    margin-bottom: 1rem;
+  }
+
+  .month-title {
+    font-size: 1.25rem;
+  }
+
+  .nav-button {
+    width: 36px;
+    height: 36px;
+    font-size: 1.25rem;
+  }
+
+  .weekday-header {
+    font-size: 0.75rem;
+    padding: 0.25rem;
+  }
+
+  .calendar-grid {
+    gap: 0.25rem;
+    /* Smaller fixed height for mobile */
+    min-height: 360px;
+    height: 360px;
+  }
+
+  .date-cell {
+    padding: 0.5rem 0.25rem;
+    border-radius: 4px;
+    min-height: 50px;
+  }
+
+  .nepali-date {
+    font-size: 1rem;
+  }
+
+  .gregorian-date {
+    font-size: 0.625rem;
+    bottom: 0.25rem;
+    right: 0.25rem;
+  }
+
+  .today-button {
+    margin-top: 1rem;
+    padding: 0.625rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet adjustments (641px-1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .calendar-container {
+    max-width: 600px;
+  }
+
+  .calendar-grid {
+    min-height: 420px;
+    height: 420px;
+  }
+}
+
+/* Larger screens (1025px+) */
+@media (min-width: 1025px) {
+  .calendar-grid {
+    min-height: 500px;
+    height: 500px;
+  }
+
+  .date-cell {
+    min-height: 70px;
+  }
+}
+
+/* ===== Feature 002: Notes Indicator ===== */
+
+/* Notes indicator badge */
+.notes-indicator {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background: #0066cc;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 10;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.notes-indicator:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Notes modal specific styles */
+.notes-empty {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.note-item {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.note-content {
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.note-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.note-time {
+  font-style: italic;
+}
+
+.note-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.note-action-btn {
+  padding: 0.25rem 0.625rem;
+  border-radius: 4px;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.note-action-btn[data-action="edit"] {
+  background: #0066cc;
+  color: white;
+}
+
+.note-action-btn[data-action="edit"]:hover {
+  background: #0052a3;
+}
+
+.note-delete-btn {
+  background: #dc2626;
+  color: white;
+}
+
+.note-delete-btn:hover {
+  background: #b91c1c;
+}
+
+/* Mobile responsive for notes */
+@media (max-width: 640px) {
+  .notes-indicator {
+    width: 18px;
+    height: 18px;
+    font-size: 0.625rem;
+  }
+
+  .note-item {
+    padding: 0.75rem;
+  }
+
+  .note-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

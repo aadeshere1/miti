@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miti - Nepali Calendar</title>
+  <link rel="stylesheet" href="/src/styles/global.css">
+  <link rel="stylesheet" href="/src/styles/calendar.css">
+  <link rel="stylesheet" href="/src/styles/modal.css">
+  <link rel="stylesheet" href="/src/styles/sidebar.css">
+</head>
+<body>
+  <!-- T106: Error notification banner -->
+  <div id="error-notification" class="error-notification" style="display: none;">
+    <span id="error-message"></span>
+    <button id="error-close" class="error-close">&times;</button>
+  </div>
+
+  <!-- T117: Loading indicator for holiday data -->
+  <div id="loading-indicator" class="loading-indicator" style="display: none;">
+    <div class="loading-spinner"></div>
+    <span class="loading-text">Loading holidays...</span>
+  </div>
+
+  <div id="app" class="app-container">
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <button id="prev-month" class="nav-button">‹</button>
+        <h1 id="month-year" class="month-title"></h1>
+        <button id="next-month" class="nav-button">›</button>
+        <button id="settings-button" class="settings-button" aria-label="Settings">⚙</button>
+      </div>
+      <div class="weekday-headers" id="weekday-headers"></div>
+      <div class="calendar-grid" id="calendar-grid"></div>
+      <button id="today-button" class="today-button">Today</button>
+    </div>
+    <aside id="notes-sidebar" class="notes-sidebar">
+      <!-- Sidebar content will be rendered dynamically -->
+    </aside>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
