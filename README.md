@@ -1,3 +1,7 @@
+> [!CAUTION]
+> This app is created only for educational purpose using Claude Code and SDD. No part of the code has been audited for security issues. You may try this experimental software, but do so at your own risk. 
+
+
 # Miti - Nepali Calendar
 
 A beautiful, feature-rich Bikram Sambat (Nepali) calendar application with personal notes, customization, and holiday highlighting. Built with vanilla TypeScript and designed to be lightweight and fast.
