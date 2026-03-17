@@ -35,7 +35,12 @@ export function renderDateCell(cell: DateCell): HTMLElement {
   gregorianDateElement.className = 'gregorian-date';
   gregorianDateElement.textContent = cell.gregorianDate.day.toString();
 
+  // Challenge indicators container (between Nepali date and Gregorian date)
+  const challengeContainer = document.createElement('div');
+  challengeContainer.className = 'challenge-indicators';
+
   cellElement.appendChild(nepaliDateElement);
+  cellElement.appendChild(challengeContainer);
   cellElement.appendChild(gregorianDateElement);
 
   return cellElement;

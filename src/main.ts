@@ -10,9 +10,11 @@ import { SettingsModal } from './settings/settings-modal';
 import { themeManager } from './theme/theme-manager';
 import { loadHolidays } from './holidays/holidays-loader';
 import { showErrorNotification, showLoadingIndicator, hideLoadingIndicator } from './utils/notifications';
-import { onNotesChange, onSettingsChange } from './utils/storage-sync';
+import { onNotesChange, onSettingsChange, onChallengesChange, onChallengeCompletionsChange } from './utils/storage-sync';
 import { convertGregorianToNepali } from './calendar/conversions';
 import { checkStorageUsage } from './utils/storage';
+import { getChallenges } from './challenges/challenges-storage';
+import './styles/challenges.css';
 
 // Global sidebar instance
 let sidebarInstance: NotesSidebar | null = null;
@@ -47,6 +49,9 @@ function init(): void {
 
   // T118: Check localStorage usage on startup and warn if over 80%
   checkStorageUsage();
+
+  // Initialize challenge defaults on first use
+  getChallenges();
 
   // Initialize notes modal
   const notesModal = new NotesModal();
@@ -95,6 +100,11 @@ function init(): void {
       );
     });
 
+  // Register challenges change handler — re-render calendar when challenges are toggled/added/removed
+  settingsModal.onChallengesChange(() => {
+    render();
+  });
+
   // Register settings change handler
   settingsModal.onSettingsChange(() => {
     applySidebarSettings();
@@ -111,6 +121,14 @@ function init(): void {
     if (sidebarInstance) {
       sidebarInstance.refresh();
     }
+  });
+
+  // Multi-tab sync for challenge changes
+  onChallengesChange(() => {
+    render();
+  });
+  onChallengeCompletionsChange(() => {
+    refreshCalendar();
   });
 
   // T059 & T071: Register settings change handler for multi-tab sync

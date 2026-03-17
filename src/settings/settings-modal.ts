@@ -3,12 +3,16 @@
 import { Modal } from '../components/Modal';
 import { getSettings, updateSettings, DEFAULT_SETTINGS } from './settings-storage';
 import type { Settings, WeekendConfig, SidebarPosition } from './settings-types';
+import { getChallenges, enableChallenge, disableChallenge, addChallenge, updateChallenge, deleteChallenge } from '../challenges/challenges-storage';
+import type { Challenge } from '../challenges/challenges-types';
+import { EMOJI_OPTIONS, MAX_CHALLENGES } from '../challenges/challenges-types';
 
 /**
  * SettingsModal class for managing app settings (T048)
  */
 export class SettingsModal extends Modal {
   private onSettingsChangeCallback?: () => void;
+  private onChallengesChangeCallback?: () => void;
 
   constructor() {
     super('settings-modal');
@@ -20,6 +24,7 @@ export class SettingsModal extends Modal {
    */
   public open(): void {
     this.loadSettings();
+    this.renderChallengesList();
     super.open();
   }
 
@@ -28,6 +33,10 @@ export class SettingsModal extends Modal {
    */
   public onSettingsChange(callback: () => void): void {
     this.onSettingsChangeCallback = callback;
+  }
+
+  public onChallengesChange(callback: () => void): void {
+    this.onChallengesChangeCallback = callback;
   }
 
   /**
@@ -132,6 +141,13 @@ export class SettingsModal extends Modal {
             <input type="file" id="theme-image-file" class="file-input" accept="image/*" />
             <div class="file-input-note">JPG, PNG, or GIF - max 2MB</div>
           </div>
+        </section>
+
+        <!-- Daily Challenges Section -->
+        <section class="settings-section challenges-settings-section">
+          <h3>Daily Challenges</h3>
+          <div id="challenges-list"></div>
+          <div id="challenge-form-container"></div>
         </section>
       </div>
 
@@ -390,5 +406,283 @@ export class SettingsModal extends Modal {
     if (this.onSettingsChangeCallback) {
       this.onSettingsChangeCallback();
     }
+  }
+
+  private notifyChallengesChange(): void {
+    if (this.onChallengesChangeCallback) {
+      this.onChallengesChangeCallback();
+    }
+  }
+
+  // ── Daily Challenges rendering (T012, T018, T019) ──
+
+  private renderChallengesList(): void {
+    const content = this.getContentElement();
+    const listEl = content.querySelector('#challenges-list') as HTMLElement;
+    const formContainer = content.querySelector('#challenge-form-container') as HTMLElement;
+    if (!listEl) return;
+
+    listEl.innerHTML = '';
+    formContainer.innerHTML = '';
+
+    const challenges = getChallenges();
+
+    challenges.forEach(challenge => {
+      const row = document.createElement('div');
+      row.className = 'challenge-toggle-row';
+
+      const icon = document.createElement('span');
+      icon.className = 'challenge-toggle-icon';
+      icon.textContent = challenge.icon;
+
+      const name = document.createElement('span');
+      name.className = 'challenge-toggle-name';
+      name.textContent = challenge.name;
+
+      // Toggle switch
+      const toggle = document.createElement('label');
+      toggle.className = 'challenge-toggle-switch';
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = challenge.enabled;
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+          enableChallenge(challenge.id);
+        } else {
+          disableChallenge(challenge.id);
+        }
+        this.notifyChallengesChange();
+      });
+      const slider = document.createElement('span');
+      slider.className = 'challenge-toggle-slider';
+      toggle.appendChild(checkbox);
+      toggle.appendChild(slider);
+
+      row.appendChild(icon);
+      row.appendChild(name);
+
+      // Edit/delete buttons for custom challenges
+      if (challenge.type === 'custom') {
+        const editBtn = document.createElement('button');
+        editBtn.className = 'challenge-action-btn';
+        editBtn.textContent = '✏️';
+        editBtn.title = 'Edit';
+        editBtn.addEventListener('click', () => this.showEditForm(challenge));
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'challenge-action-btn delete';
+        deleteBtn.textContent = '🗑️';
+        deleteBtn.title = 'Delete';
+        deleteBtn.addEventListener('click', () => {
+          if (confirm('This will remove the challenge and all its historical data. Continue?')) {
+            deleteChallenge(challenge.id);
+            this.renderChallengesList();
+            this.notifyChallengesChange();
+          }
+        });
+
+        row.appendChild(editBtn);
+        row.appendChild(deleteBtn);
+      }
+
+      row.appendChild(toggle);
+      listEl.appendChild(row);
+    });
+
+    // "Add Challenge" button
+    if (challenges.length < MAX_CHALLENGES) {
+      const addBtn = document.createElement('button');
+      addBtn.className = 'challenge-add-btn';
+      addBtn.innerHTML = '<span>+</span> Add Challenge';
+      addBtn.addEventListener('click', () => this.showAddForm());
+      listEl.appendChild(addBtn);
+    }
+  }
+
+  private showAddForm(): void {
+    const content = this.getContentElement();
+    const formContainer = content.querySelector('#challenge-form-container') as HTMLElement;
+    if (!formContainer) return;
+
+    let selectedEmoji = EMOJI_OPTIONS[0];
+
+    formContainer.innerHTML = '';
+    const form = document.createElement('div');
+    form.className = 'challenge-add-form';
+
+    // Name input
+    const nameRow = document.createElement('div');
+    nameRow.className = 'challenge-form-row';
+    const nameLabel = document.createElement('label');
+    nameLabel.className = 'challenge-form-label';
+    nameLabel.textContent = 'Challenge Name';
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.className = 'challenge-name-input';
+    nameInput.placeholder = 'e.g. No Social Media';
+    nameInput.maxLength = 30;
+    nameRow.appendChild(nameLabel);
+    nameRow.appendChild(nameInput);
+
+    // Emoji picker
+    const emojiRow = document.createElement('div');
+    emojiRow.className = 'challenge-form-row';
+    const emojiLabel = document.createElement('label');
+    emojiLabel.className = 'challenge-form-label';
+    emojiLabel.textContent = 'Icon';
+    const emojiGrid = document.createElement('div');
+    emojiGrid.className = 'emoji-picker-grid';
+
+    EMOJI_OPTIONS.forEach(emoji => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'emoji-picker-btn' + (emoji === selectedEmoji ? ' emoji-selected' : '');
+      btn.textContent = emoji;
+      btn.addEventListener('click', () => {
+        selectedEmoji = emoji;
+        emojiGrid.querySelectorAll('.emoji-picker-btn').forEach(b => b.classList.remove('emoji-selected'));
+        btn.classList.add('emoji-selected');
+      });
+      emojiGrid.appendChild(btn);
+    });
+
+    emojiRow.appendChild(emojiLabel);
+    emojiRow.appendChild(emojiGrid);
+
+    // Error message
+    const errorEl = document.createElement('div');
+    errorEl.className = 'challenge-form-error';
+    errorEl.style.display = 'none';
+
+    // Actions
+    const actions = document.createElement('div');
+    actions.className = 'challenge-form-actions';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.className = 'challenge-form-btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.addEventListener('click', () => { formContainer.innerHTML = ''; });
+
+    const saveBtn = document.createElement('button');
+    saveBtn.type = 'button';
+    saveBtn.className = 'challenge-form-btn primary';
+    saveBtn.textContent = 'Save';
+    saveBtn.addEventListener('click', () => {
+      try {
+        addChallenge(nameInput.value, selectedEmoji);
+        formContainer.innerHTML = '';
+        this.renderChallengesList();
+        this.notifyChallengesChange();
+      } catch (err: any) {
+        errorEl.textContent = err.message;
+        errorEl.style.display = 'block';
+      }
+    });
+
+    actions.appendChild(cancelBtn);
+    actions.appendChild(saveBtn);
+
+    form.appendChild(nameRow);
+    form.appendChild(emojiRow);
+    form.appendChild(errorEl);
+    form.appendChild(actions);
+    formContainer.appendChild(form);
+
+    nameInput.focus();
+  }
+
+  private showEditForm(challenge: Challenge): void {
+    const content = this.getContentElement();
+    const formContainer = content.querySelector('#challenge-form-container') as HTMLElement;
+    if (!formContainer) return;
+
+    let selectedEmoji = challenge.icon;
+
+    formContainer.innerHTML = '';
+    const form = document.createElement('div');
+    form.className = 'challenge-add-form';
+
+    // Name input
+    const nameRow = document.createElement('div');
+    nameRow.className = 'challenge-form-row';
+    const nameLabel = document.createElement('label');
+    nameLabel.className = 'challenge-form-label';
+    nameLabel.textContent = 'Challenge Name';
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.className = 'challenge-name-input';
+    nameInput.value = challenge.name;
+    nameInput.maxLength = 30;
+    nameRow.appendChild(nameLabel);
+    nameRow.appendChild(nameInput);
+
+    // Emoji picker
+    const emojiRow = document.createElement('div');
+    emojiRow.className = 'challenge-form-row';
+    const emojiLabel = document.createElement('label');
+    emojiLabel.className = 'challenge-form-label';
+    emojiLabel.textContent = 'Icon';
+    const emojiGrid = document.createElement('div');
+    emojiGrid.className = 'emoji-picker-grid';
+
+    EMOJI_OPTIONS.forEach(emoji => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'emoji-picker-btn' + (emoji === selectedEmoji ? ' emoji-selected' : '');
+      btn.textContent = emoji;
+      btn.addEventListener('click', () => {
+        selectedEmoji = emoji;
+        emojiGrid.querySelectorAll('.emoji-picker-btn').forEach(b => b.classList.remove('emoji-selected'));
+        btn.classList.add('emoji-selected');
+      });
+      emojiGrid.appendChild(btn);
+    });
+
+    emojiRow.appendChild(emojiLabel);
+    emojiRow.appendChild(emojiGrid);
+
+    // Error message
+    const errorEl = document.createElement('div');
+    errorEl.className = 'challenge-form-error';
+    errorEl.style.display = 'none';
+
+    // Actions
+    const actions = document.createElement('div');
+    actions.className = 'challenge-form-actions';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.className = 'challenge-form-btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.addEventListener('click', () => { formContainer.innerHTML = ''; });
+
+    const saveBtn = document.createElement('button');
+    saveBtn.type = 'button';
+    saveBtn.className = 'challenge-form-btn primary';
+    saveBtn.textContent = 'Update';
+    saveBtn.addEventListener('click', () => {
+      try {
+        updateChallenge(challenge.id, nameInput.value, selectedEmoji);
+        formContainer.innerHTML = '';
+        this.renderChallengesList();
+        this.notifyChallengesChange();
+      } catch (err: any) {
+        errorEl.textContent = err.message;
+        errorEl.style.display = 'block';
+      }
+    });
+
+    actions.appendChild(cancelBtn);
+    actions.appendChild(saveBtn);
+
+    form.appendChild(nameRow);
+    form.appendChild(emojiRow);
+    form.appendChild(errorEl);
+    form.appendChild(actions);
+    formContainer.appendChild(form);
+
+    nameInput.focus();
+    nameInput.select();
   }
 }
