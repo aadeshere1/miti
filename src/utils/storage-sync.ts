@@ -113,3 +113,17 @@ export function onSettingsChange(callback: SyncCallback): void {
 export function onHolidaysChange(callback: SyncCallback): void {
   storageSync.on('miti:holidays', callback);
 }
+
+/**
+ * Convenience function to listen for challenge definition changes
+ */
+export function onChallengesChange(callback: SyncCallback): void {
+  storageSync.on('miti:challenges', callback);
+}
+
+/**
+ * Convenience function to listen for challenge completion changes
+ */
+export function onChallengeCompletionsChange(callback: SyncCallback): void {
+  storageSync.on('miti:challenge-completions:', callback);
+}

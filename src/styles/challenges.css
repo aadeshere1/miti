@@ -1,0 +1,387 @@
+/* ===== Feature 004: Daily Challenges ===== */
+
+/* ── Challenge indicators in date cells ── */
+
+.challenge-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: center;
+  margin-top: 2px;
+  max-width: 100%;
+  z-index: 3;
+}
+
+.challenge-icon {
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 2px;
+  background: white;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.challenge-icon:hover {
+  transform: scale(1.2);
+}
+
+.challenge-icon.challenge-completed {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.challenge-icon.challenge-missed {
+  opacity: 0.3;
+  filter: grayscale(0.6);
+}
+
+.challenge-icon.challenge-readonly {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Today cell: ensure challenge icons are white-friendly */
+.date-cell.today .challenge-icon {
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.3));
+}
+
+/* Other-month cells: hide challenges */
+.date-cell.other-month .challenge-indicators {
+  display: none;
+}
+
+/* ── Compact summary badge (>4 challenges) ── */
+
+.challenge-summary-badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: #e0e7ff;
+  color: #3b52b5;
+  border-radius: 8px;
+  padding: 1px 5px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.challenge-summary-badge:hover {
+  background: #c7d2fe;
+}
+
+.date-cell.today .challenge-summary-badge {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* ── Challenges popover ── */
+
+.challenges-popover {
+  position: absolute;
+  z-index: 100;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  min-width: 200px;
+  max-width: 260px;
+}
+
+.popover-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.popover-challenge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 2px;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
+.popover-challenge-row:hover {
+  background: #f9f9f9;
+}
+
+.popover-challenge-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #0066cc;
+}
+
+.popover-challenge-checkbox:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.popover-challenge-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.popover-challenge-name {
+  flex: 1;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Settings: Daily Challenges section ── */
+
+.challenges-settings-section {
+  margin-top: 0;
+}
+
+.challenge-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.challenge-toggle-row:last-of-type {
+  border-bottom: none;
+}
+
+.challenge-toggle-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.challenge-toggle-name {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+}
+
+.challenge-toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.challenge-toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.challenge-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #ccc;
+  border-radius: 22px;
+  transition: background 0.2s ease;
+}
+
+.challenge-toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 2px;
+  bottom: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.challenge-toggle-switch input:checked + .challenge-toggle-slider {
+  background: #0066cc;
+}
+
+.challenge-toggle-switch input:checked + .challenge-toggle-slider::before {
+  transform: translateX(18px);
+}
+
+/* Action buttons for custom challenges */
+.challenge-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px;
+  border-radius: 4px;
+  color: #666;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.challenge-action-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.challenge-action-btn.delete:hover {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+/* Add challenge button */
+.challenge-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  margin-top: 8px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #666;
+  width: 100%;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.challenge-add-btn:hover {
+  border-color: #0066cc;
+  color: #0066cc;
+}
+
+/* Add/Edit challenge form */
+.challenge-add-form {
+  padding: 10px;
+  margin-top: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.challenge-form-row {
+  margin-bottom: 8px;
+}
+
+.challenge-form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.challenge-name-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.challenge-name-input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+}
+
+.emoji-picker-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.emoji-picker-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+  transition: background 0.1s ease, border-color 0.1s ease;
+}
+
+.emoji-picker-btn:hover {
+  background: #e0e7ff;
+}
+
+.emoji-picker-btn.emoji-selected {
+  border-color: #0066cc;
+  background: #e0e7ff;
+}
+
+.challenge-form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.challenge-form-btn {
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  background: white;
+  color: #333;
+  transition: background 0.15s ease;
+}
+
+.challenge-form-btn:hover {
+  background: #f0f0f0;
+}
+
+.challenge-form-btn.primary {
+  background: #0066cc;
+  color: white;
+  border-color: #0066cc;
+}
+
+.challenge-form-btn.primary:hover {
+  background: #0052a3;
+}
+
+.challenge-form-error {
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 4px;
+}
+
+/* ── Mobile responsive ── */
+
+@media (max-width: 640px) {
+  .challenge-indicators {
+    gap: 1px;
+  }
+
+  .challenge-icon {
+    font-size: 15px;
+  }
+
+  .challenge-summary-badge {
+    font-size: 10px;
+    padding: 1px 3px;
+  }
+
+  .challenges-popover {
+    min-width: 180px;
+    max-width: 220px;
+    padding: 8px;
+  }
+
+  .popover-challenge-row {
+    font-size: 12px;
+  }
+}

@@ -9,6 +9,7 @@ import { addNotesIndicator } from '../notes/notes-ui';
 import type { NotesModal } from '../notes/notes-modal';
 import { isWeekendDay } from '../settings/settings-storage';
 import { getHolidayForDate } from '../holidays/holidays-storage';
+import { addChallengeIndicators, refreshChallengeIndicators } from '../challenges/challenges-ui';
 
 // Global reference to notes modal (set from main.ts)
 let notesModalInstance: NotesModal | null = null;
@@ -176,6 +177,9 @@ export function renderCalendarGrid(calendarMonth: CalendarMonth): void {
     // T028: Add notes indicator if date has notes
     addNotesIndicator(cellElement, nepaliDateString);
 
+    // Add challenge indicators
+    addChallengeIndicators(cellElement, nepaliDateString, cell.isToday, cell.isCurrentMonth);
+
     // T029: Add click handler to open notes modal
     cellElement.addEventListener('click', () => {
       if (notesModalInstance) {
@@ -216,4 +220,7 @@ export function refreshCalendar(): void {
       addNotesIndicator(cellElement, nepaliDateString);
     }
   });
+
+  // Also refresh challenge indicators
+  refreshChallengeIndicators();
 }
