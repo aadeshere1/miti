@@ -7,9 +7,7 @@
  * @returns New Date object with adjusted month (immutable)
  */
 export function adjustMonth(date: Date, offset: number): Date {
-  const newDate = new Date(date);
-  newDate.setMonth(date.getMonth() + offset);
-  return newDate;
+  return new Date(date.getFullYear(), date.getMonth() + offset, 1);
 }
 
 /**
