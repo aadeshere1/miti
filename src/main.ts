@@ -14,6 +14,7 @@ import { onNotesChange, onSettingsChange, onChallengesChange, onChallengeComplet
 import { convertGregorianToNepali } from './calendar/conversions';
 import { checkStorageUsage } from './utils/storage';
 import { getChallenges } from './challenges/challenges-storage';
+import { renderReminders } from './challenges/challenges-reminder-ui';
 import './styles/challenges.css';
 
 // Global sidebar instance
@@ -176,6 +177,9 @@ function init(): void {
 
   // Render initial calendar
   render();
+
+  // Show challenge reminders on page load
+  renderReminders();
 }
 
 // T124: Global error handler for unhandled exceptions

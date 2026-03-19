@@ -6,6 +6,11 @@
 export type ChallengeType = 'default' | 'custom';
 
 /**
+ * Reminder time window options for challenge reminders
+ */
+export type ReminderTimeWindow = 'morning' | 'afternoon' | 'evening' | 'all-day' | 'none';
+
+/**
  * Challenge entity — a trackable daily challenge definition
  */
 export interface Challenge {
@@ -17,6 +22,7 @@ export interface Challenge {
   enabledDate: string;   // Nepali date YYYY-MM-DD
   createdDate: string;   // Nepali date YYYY-MM-DD
   order: number;
+  reminderTime: ReminderTimeWindow;
 }
 
 /**
@@ -51,6 +57,7 @@ export function createDefaultChallenges(todayNepali: string): Challenge[] {
       enabledDate: todayNepali,
       createdDate: todayNepali,
       order: 0,
+      reminderTime: 'evening',
     },
     {
       id: DEFAULT_CHALLENGE_IDS.FIRST_THING_WATER,
@@ -61,6 +68,7 @@ export function createDefaultChallenges(todayNepali: string): Challenge[] {
       enabledDate: todayNepali,
       createdDate: todayNepali,
       order: 1,
+      reminderTime: 'morning',
     },
     {
       id: DEFAULT_CHALLENGE_IDS.NO_SUGAR,
@@ -71,6 +79,7 @@ export function createDefaultChallenges(todayNepali: string): Challenge[] {
       enabledDate: todayNepali,
       createdDate: todayNepali,
       order: 2,
+      reminderTime: 'evening',
     },
   ];
 }

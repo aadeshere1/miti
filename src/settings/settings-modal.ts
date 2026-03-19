@@ -3,9 +3,10 @@
 import { Modal } from '../components/Modal';
 import { getSettings, updateSettings, DEFAULT_SETTINGS } from './settings-storage';
 import type { Settings, WeekendConfig, SidebarPosition } from './settings-types';
-import { getChallenges, enableChallenge, disableChallenge, addChallenge, updateChallenge, deleteChallenge } from '../challenges/challenges-storage';
+import { getChallenges, saveChallenges, enableChallenge, disableChallenge, addChallenge, updateChallenge, deleteChallenge } from '../challenges/challenges-storage';
 import type { Challenge } from '../challenges/challenges-types';
 import { EMOJI_OPTIONS, MAX_CHALLENGES } from '../challenges/challenges-types';
+import type { ReminderTimeWindow } from '../challenges/challenges-types';
 
 /**
  * SettingsModal class for managing app settings (T048)
@@ -458,8 +459,36 @@ export class SettingsModal extends Modal {
       toggle.appendChild(checkbox);
       toggle.appendChild(slider);
 
+      // Reminder time dropdown
+      const reminderSelect = document.createElement('select');
+      reminderSelect.className = 'reminder-time-select';
+      reminderSelect.dataset.challengeId = challenge.id;
+      const reminderOptions: { value: ReminderTimeWindow; label: string }[] = [
+        { value: 'morning', label: 'Morning (5-10 AM)' },
+        { value: 'afternoon', label: 'Afternoon (11 AM-4 PM)' },
+        { value: 'evening', label: 'Evening (5-10 PM)' },
+        { value: 'all-day', label: 'All Day' },
+        { value: 'none', label: 'No Reminder' },
+      ];
+      reminderOptions.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt.value;
+        option.textContent = opt.label;
+        if (challenge.reminderTime === opt.value) option.selected = true;
+        reminderSelect.appendChild(option);
+      });
+      reminderSelect.addEventListener('change', () => {
+        const challenges = getChallenges();
+        const target = challenges.find(c => c.id === challenge.id);
+        if (target) {
+          target.reminderTime = reminderSelect.value as ReminderTimeWindow;
+          saveChallenges(challenges);
+        }
+      });
+
       row.appendChild(icon);
       row.appendChild(name);
+      row.appendChild(reminderSelect);
 
       // Edit/delete buttons for custom challenges
       if (challenge.type === 'custom') {

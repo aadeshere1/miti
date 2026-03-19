@@ -1,7 +1,7 @@
 /* Calendar-specific styles */
 
 .calendar-container {
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
   background: white;
   border-radius: 12px;
@@ -12,13 +12,14 @@
 /* Month Header */
 .calendar-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
   padding: 0 0.5rem;
 }
 
 .month-title {
+  flex: 1;
+  text-align: center;
   font-size: 1.75rem;
   font-weight: 600;
   color: #1a1a1a;
@@ -95,9 +96,9 @@
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(auto-fill, 1fr);
   gap: 0.5rem;
-  /* Fixed height for consistency - accommodates 6 rows */
-  min-height: 480px;
-  height: 480px;
+  height: calc(100vh - 260px);
+  min-height: 400px;
+  max-height: 640px;
 }
 
 /* Date Cell */
@@ -253,6 +254,8 @@
   }
 
   .month-title {
+    flex: 1;
+    text-align: center;
     font-size: 1.25rem;
   }
 
@@ -269,9 +272,9 @@
 
   .calendar-grid {
     gap: 0.25rem;
-    /* Smaller fixed height for mobile */
-    min-height: 360px;
-    height: 360px;
+    height: calc(100vh - 220px);
+    min-height: 320px;
+    max-height: 480px;
   }
 
   .date-cell {
@@ -304,16 +307,18 @@
   }
 
   .calendar-grid {
-    min-height: 420px;
-    height: 420px;
+    height: calc(100vh - 260px);
+    min-height: 400px;
+    max-height: 580px;
   }
 }
 
 /* Larger screens (1025px+) */
 @media (min-width: 1025px) {
   .calendar-grid {
-    min-height: 500px;
-    height: 500px;
+    height: calc(100vh - 260px);
+    min-height: 400px;
+    max-height: 640px;
   }
 
   .date-cell {
