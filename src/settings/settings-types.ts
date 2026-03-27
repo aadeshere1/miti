@@ -23,6 +23,8 @@ export interface Settings {
   weekend: WeekendConfig;
   sidebarPosition: SidebarPosition;
   sidebarEnabled: boolean;
+  streakPanelPosition: SidebarPosition;
+  streakPanelEnabled: boolean;
   themeType: ThemeType;
   backgroundColor?: string;      // Hex color (e.g., "#ffffff")
   backgroundImage?: string;      // Data URL or external URL
@@ -35,6 +37,8 @@ export const DEFAULT_SETTINGS: Settings = {
   weekend: 'both',
   sidebarPosition: 'right',
   sidebarEnabled: true,
+  streakPanelPosition: 'left',
+  streakPanelEnabled: true,
   themeType: 'none',
   backgroundColor: '#ffffff',
 };

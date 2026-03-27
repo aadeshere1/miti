@@ -217,6 +217,45 @@ miti/
 3. Update main.ts to integrate new features
 4. Add tests for new functionality
 
+## Automated Deployment
+
+This project uses **GitHub Actions** to automatically build and deploy to **GitHub Pages** on every push to the `main` branch.
+
+### How Deployment Works
+
+1. **Push to main branch**: Commit and push your changes
+   ```bash
+   git add .
+   git commit -m "feat: add new feature"
+   git push origin main
+   ```
+
+2. **Automatic build**: GitHub Actions runs the workflow
+   - Checks out your code
+   - Sets up Node.js environment
+   - Installs dependencies
+   - Compiles TypeScript and builds with Vite
+   - Validates the build succeeds
+
+3. **Automatic deployment**: If build succeeds
+   - Uploads the dist/ folder to GitHub Pages
+   - Your site updates live within 5 minutes
+
+### Monitoring Deployment
+
+- View deployment status: **GitHub repo → Actions tab**
+- Check workflow logs: Click on the workflow run to see detailed logs
+- View your live site: https://[username].github.io/[repository]/
+
+### Build Failures
+
+If the build fails:
+- The workflow stops automatically
+- GitHub Pages is NOT updated (previous version remains live)
+- Check the Actions tab logs to see what failed
+- Common issues: TypeScript errors, missing dependencies
+- Fix the issue and push again
+
 ## Contributing
 
 Contributions are welcome! Please:

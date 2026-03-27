@@ -5,15 +5,14 @@
   display: flex;
   flex-direction: row;
   min-height: 100vh;
-  gap: 0;
-  /* T119: Smooth transition for position changes */
-  transition: flex-direction 0.3s ease;
+  gap: 1.5rem;
 }
 
-/* Calendar takes up main space */
+/* Calendar takes up main space — always in the center */
 .calendar-container {
   flex: 1;
   min-width: 0;
+  order: 1;
 }
 
 /* Sidebar base styles */
@@ -24,10 +23,24 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  /* T119: Smooth transitions for sidebar changes */
   transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
   opacity: 1;
   transform: translateX(0);
+  order: 2;
+}
+
+/* Streak sidebar base styles */
+.streak-sidebar {
+  width: 280px;
+  background-color: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  opacity: 1;
+  transform: translateX(0);
+  order: 0;
 }
 
 /* Sidebar header */
@@ -116,24 +129,46 @@
   color: #9ca3af;
 }
 
-/* Sidebar position classes */
-.app-container.position-left {
-  flex-direction: row-reverse;
-}
-
-.app-container.position-left .notes-sidebar {
+/* Notes sidebar position classes */
+.app-container.notes-position-left .notes-sidebar {
+  order: 0;
   border-left: none;
   border-right: 1px solid #e5e7eb;
 }
 
-.app-container.position-right {
-  flex-direction: row;
+.app-container.notes-position-right .notes-sidebar {
+  order: 2;
+  border-right: none;
+  border-left: 1px solid #e5e7eb;
 }
 
-/* Sidebar visibility - T119: Smooth hide/show transition */
+/* Streak sidebar position classes */
+.app-container.streak-position-left .streak-sidebar {
+  order: 0;
+  border-left: none;
+  border-right: 1px solid #e5e7eb;
+}
+
+.app-container.streak-position-right .streak-sidebar {
+  order: 2;
+  border-right: none;
+  border-left: 1px solid #e5e7eb;
+}
+
+/* Sidebar visibility — smooth hide/show transition */
 .notes-sidebar.sidebar-hidden {
   opacity: 0;
   transform: translateX(20px);
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  pointer-events: none;
+}
+
+.streak-sidebar.sidebar-hidden {
+  opacity: 0;
+  transform: translateX(-20px);
   width: 0;
   min-width: 0;
   padding: 0;
@@ -147,6 +182,19 @@
     flex-direction: column;
   }
 
+  .streak-sidebar {
+    width: 100%;
+    max-height: 30vh;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    order: 0;
+    overflow-y: auto;
+  }
+
+  .calendar-container {
+    order: 1;
+  }
+
   .notes-sidebar {
     width: 100%;
     max-height: 40vh;
@@ -155,13 +203,14 @@
     order: 2;
   }
 
-  .calendar-container {
-    order: 1;
-  }
-
-  .app-container.position-left .notes-sidebar {
+  .app-container.notes-position-left .notes-sidebar {
     border-right: none;
     border-top: 1px solid #e5e7eb;
+  }
+
+  .app-container.streak-position-right .streak-sidebar {
+    border-left: none;
+    border-bottom: 1px solid #e5e7eb;
   }
 }
 
@@ -180,5 +229,22 @@
 }
 
 .sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.streak-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.streak-sidebar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.streak-sidebar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.streak-sidebar::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }

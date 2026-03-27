@@ -3,9 +3,10 @@
 import { Modal } from '../components/Modal';
 import { getSettings, updateSettings, DEFAULT_SETTINGS } from './settings-storage';
 import type { Settings, WeekendConfig, SidebarPosition } from './settings-types';
-import { getChallenges, enableChallenge, disableChallenge, addChallenge, updateChallenge, deleteChallenge } from '../challenges/challenges-storage';
+import { getChallenges, saveChallenges, enableChallenge, disableChallenge, addChallenge, updateChallenge, deleteChallenge } from '../challenges/challenges-storage';
 import type { Challenge } from '../challenges/challenges-types';
 import { EMOJI_OPTIONS, MAX_CHALLENGES } from '../challenges/challenges-types';
+import type { ReminderTimeWindow } from '../challenges/challenges-types';
 
 /**
  * SettingsModal class for managing app settings (T048)
@@ -74,6 +75,32 @@ export class SettingsModal extends Modal {
             <label class="checkbox-label">
               <input type="checkbox" id="sidebar-enabled" />
               <span>Show sidebar</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Streak Panel Configuration Section -->
+        <section class="settings-section">
+          <h3>Streak Panel</h3>
+
+          <div class="setting-group">
+            <label class="setting-label">Position</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="streak-panel-position" value="left" />
+                <span>Left</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="streak-panel-position" value="right" />
+                <span>Right</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="streak-panel-enabled" />
+              <span>Show streak panel</span>
             </label>
           </div>
         </section>
@@ -188,6 +215,16 @@ export class SettingsModal extends Modal {
     const enabledCheckbox = content.querySelector('#sidebar-enabled') as HTMLInputElement;
     enabledCheckbox?.addEventListener('change', (e) => this.handleSidebarVisibilityToggle(e));
 
+    // Streak panel position radio buttons
+    const streakPositionRadios = content.querySelectorAll('input[name="streak-panel-position"]');
+    streakPositionRadios.forEach(radio => {
+      radio.addEventListener('change', (e) => this.handleStreakPanelPositionChange(e));
+    });
+
+    // Streak panel visibility checkbox
+    const streakEnabledCheckbox = content.querySelector('#streak-panel-enabled') as HTMLInputElement;
+    streakEnabledCheckbox?.addEventListener('change', (e) => this.handleStreakPanelVisibilityToggle(e));
+
     // Weekend configuration radio buttons
     const weekendRadios = content.querySelectorAll('input[name="weekend-config"]');
     weekendRadios.forEach(radio => {
@@ -229,6 +266,16 @@ export class SettingsModal extends Modal {
     // Set sidebar visibility
     const enabledCheckbox = content.querySelector('#sidebar-enabled') as HTMLInputElement;
     if (enabledCheckbox) enabledCheckbox.checked = settings.sidebarEnabled;
+
+    // Set streak panel position
+    const streakPositionRadio = content.querySelector(
+      `input[name="streak-panel-position"][value="${settings.streakPanelPosition || 'left'}"]`
+    ) as HTMLInputElement;
+    if (streakPositionRadio) streakPositionRadio.checked = true;
+
+    // Set streak panel visibility
+    const streakEnabledCheckbox = content.querySelector('#streak-panel-enabled') as HTMLInputElement;
+    if (streakEnabledCheckbox) streakEnabledCheckbox.checked = settings.streakPanelEnabled !== false;
 
     // Set weekend configuration
     const weekendRadio = content.querySelector(
@@ -276,6 +323,28 @@ export class SettingsModal extends Modal {
     const enabled = input.checked;
 
     updateSettings({ sidebarEnabled: enabled });
+    this.notifyChange();
+  }
+
+  /**
+   * Handle streak panel position change
+   */
+  private handleStreakPanelPositionChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const position = input.value as SidebarPosition;
+
+    updateSettings({ streakPanelPosition: position });
+    this.notifyChange();
+  }
+
+  /**
+   * Handle streak panel visibility toggle
+   */
+  private handleStreakPanelVisibilityToggle(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const enabled = input.checked;
+
+    updateSettings({ streakPanelEnabled: enabled });
     this.notifyChange();
   }
 
@@ -458,8 +527,36 @@ export class SettingsModal extends Modal {
       toggle.appendChild(checkbox);
       toggle.appendChild(slider);
 
+      // Reminder time dropdown
+      const reminderSelect = document.createElement('select');
+      reminderSelect.className = 'reminder-time-select';
+      reminderSelect.dataset.challengeId = challenge.id;
+      const reminderOptions: { value: ReminderTimeWindow; label: string }[] = [
+        { value: 'morning', label: 'Morning (5-10 AM)' },
+        { value: 'afternoon', label: 'Afternoon (11 AM-4 PM)' },
+        { value: 'evening', label: 'Evening (5-10 PM)' },
+        { value: 'all-day', label: 'All Day' },
+        { value: 'none', label: 'No Reminder' },
+      ];
+      reminderOptions.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt.value;
+        option.textContent = opt.label;
+        if (challenge.reminderTime === opt.value) option.selected = true;
+        reminderSelect.appendChild(option);
+      });
+      reminderSelect.addEventListener('change', () => {
+        const challenges = getChallenges();
+        const target = challenges.find(c => c.id === challenge.id);
+        if (target) {
+          target.reminderTime = reminderSelect.value as ReminderTimeWindow;
+          saveChallenges(challenges);
+        }
+      });
+
       row.appendChild(icon);
       row.appendChild(name);
+      row.appendChild(reminderSelect);
 
       // Edit/delete buttons for custom challenges
       if (challenge.type === 'custom') {

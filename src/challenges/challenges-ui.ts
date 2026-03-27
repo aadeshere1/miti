@@ -3,6 +3,7 @@
 import { getEnabledChallenges, getCompletionsForDate, toggleCompletion } from './challenges-storage';
 import { convertGregorianToNepali } from '../calendar/conversions';
 import { openChallengesPopover } from './challenges-popover';
+import { refreshTodayChecklist } from './challenges-today-ui';
 
 const COMPACT_THRESHOLD = 4;
 
@@ -90,6 +91,7 @@ export function addChallengeIndicators(
           e.stopPropagation();
           const newState = toggleCompletion(challenge.id, nepaliDate);
           icon.classList.toggle('challenge-completed', newState);
+          refreshTodayChecklist();
         });
       }
 

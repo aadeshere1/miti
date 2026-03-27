@@ -14,6 +14,8 @@ import { onNotesChange, onSettingsChange, onChallengesChange, onChallengeComplet
 import { convertGregorianToNepali } from './calendar/conversions';
 import { checkStorageUsage } from './utils/storage';
 import { getChallenges } from './challenges/challenges-storage';
+import { renderReminders } from './challenges/challenges-reminder-ui';
+import { renderTodayChecklist, refreshTodayChecklist } from './challenges/challenges-today-ui';
 import './styles/challenges.css';
 
 // Global sidebar instance
@@ -38,6 +40,9 @@ export function render(): void {
     const nepaliDate = convertGregorianToNepali(state.currentMonth);
     sidebarInstance.render(nepaliDate.year, nepaliDate.month);
   }
+
+  // Refresh today checklist to sync with calendar state
+  refreshTodayChecklist();
 }
 
 /**
@@ -176,6 +181,12 @@ function init(): void {
 
   // Render initial calendar
   render();
+
+  // Show today challenge checklist with streak info (creates sidebar content)
+  renderTodayChecklist();
+
+  // Show challenge reminders (inserts into sidebar content)
+  renderReminders();
 }
 
 // T124: Global error handler for unhandled exceptions

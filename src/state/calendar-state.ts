@@ -1,7 +1,6 @@
 // Calendar state management
 
-import { adjustMonth } from '../calendar/date-utils';
-import { convertNepaliToGregorian } from '../calendar/conversions';
+import { convertGregorianToNepali, convertNepaliToGregorian } from '../calendar/conversions';
 import type { CalendarState } from '../types';
 
 // Global state
@@ -35,14 +34,28 @@ export function initializeState(): void {
  * Navigates to the next Nepali month
  */
 export function navigateToNextMonth(): void {
-  state.currentMonth = adjustMonth(state.currentMonth, 1);
+  const nepali = convertGregorianToNepali(state.currentMonth);
+  let nextMonth = nepali.month + 1;
+  let nextYear = nepali.year;
+  if (nextMonth > 12) {
+    nextMonth = 1;
+    nextYear += 1;
+  }
+  state.currentMonth = convertNepaliToGregorian({ year: nextYear, month: nextMonth, day: 1, dayOfWeek: 0 });
 }
 
 /**
  * Navigates to the previous Nepali month
  */
 export function navigateToPreviousMonth(): void {
-  state.currentMonth = adjustMonth(state.currentMonth, -1);
+  const nepali = convertGregorianToNepali(state.currentMonth);
+  let prevMonth = nepali.month - 1;
+  let prevYear = nepali.year;
+  if (prevMonth < 1) {
+    prevMonth = 12;
+    prevYear -= 1;
+  }
+  state.currentMonth = convertNepaliToGregorian({ year: prevYear, month: prevMonth, day: 1, dayOfWeek: 0 });
 }
 
 /**

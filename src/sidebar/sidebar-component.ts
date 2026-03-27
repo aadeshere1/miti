@@ -170,18 +170,40 @@ export class NotesSidebar {
 export function applySidebarSettings(): void {
   const settings = getSettings();
   const appContainer = document.getElementById('app');
-  const sidebar = document.getElementById('notes-sidebar');
+  const notesSidebar = document.getElementById('notes-sidebar');
+  const streakSidebar = document.getElementById('streak-sidebar');
 
-  if (!appContainer || !sidebar) return;
+  if (!appContainer) return;
 
-  // Apply position class (T054)
-  appContainer.classList.remove('position-left', 'position-right');
-  appContainer.classList.add(`position-${settings.sidebarPosition}`);
+  // Remove old position classes
+  appContainer.classList.remove(
+    'position-left', 'position-right',
+    'notes-position-left', 'notes-position-right',
+    'streak-position-left', 'streak-position-right'
+  );
 
-  // Apply visibility (T055)
-  if (settings.sidebarEnabled) {
-    sidebar.classList.remove('sidebar-hidden');
-  } else {
-    sidebar.classList.add('sidebar-hidden');
+  // Apply notes sidebar position
+  appContainer.classList.add(`notes-position-${settings.sidebarPosition}`);
+
+  // Apply streak panel position
+  const streakPosition = settings.streakPanelPosition || 'left';
+  appContainer.classList.add(`streak-position-${streakPosition}`);
+
+  // Apply notes sidebar visibility
+  if (notesSidebar) {
+    if (settings.sidebarEnabled) {
+      notesSidebar.classList.remove('sidebar-hidden');
+    } else {
+      notesSidebar.classList.add('sidebar-hidden');
+    }
+  }
+
+  // Apply streak sidebar visibility
+  if (streakSidebar) {
+    if (settings.streakPanelEnabled !== false) {
+      streakSidebar.classList.remove('sidebar-hidden');
+    } else {
+      streakSidebar.classList.add('sidebar-hidden');
+    }
   }
 }

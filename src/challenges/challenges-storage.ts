@@ -3,8 +3,8 @@
 import { getItem, setItem, removeItem } from '../utils/storage';
 import { generateUUID } from '../utils/uuid';
 import { convertGregorianToNepali } from '../calendar/conversions';
-import type { Challenge, ChallengeCompletions } from './challenges-types';
-import { CHALLENGES_KEY, CHALLENGE_COMPLETIONS_PREFIX, MAX_CHALLENGES, createDefaultChallenges } from './challenges-types';
+import type { Challenge, ChallengeCompletions, ReminderTimeWindow } from './challenges-types';
+import { CHALLENGES_KEY, CHALLENGE_COMPLETIONS_PREFIX, MAX_CHALLENGES, DEFAULT_CHALLENGE_IDS, createDefaultChallenges } from './challenges-types';
 
 // ── Helpers ──
 
@@ -27,12 +27,32 @@ function completionKey(nepaliDate: string): string {
 export function getChallenges(): Challenge[] {
   const stored = getItem<Challenge[]>(CHALLENGES_KEY);
   if (stored && stored.length > 0) {
+    // Migrate: ensure all challenges have reminderTime
+    let needsSave = false;
+    for (const challenge of stored) {
+      if (!challenge.reminderTime) {
+        challenge.reminderTime = getDefaultReminderTime(challenge.id);
+        needsSave = true;
+      }
+    }
+    if (needsSave) {
+      setItem(CHALLENGES_KEY, stored);
+    }
     return stored;
   }
   // First access — seed defaults
   const defaults = createDefaultChallenges(getTodayNepali());
   setItem(CHALLENGES_KEY, defaults);
   return defaults;
+}
+
+function getDefaultReminderTime(challengeId: string): ReminderTimeWindow {
+  switch (challengeId) {
+    case DEFAULT_CHALLENGE_IDS.FIRST_THING_WATER: return 'morning';
+    case DEFAULT_CHALLENGE_IDS.NO_JUNK_FOOD: return 'evening';
+    case DEFAULT_CHALLENGE_IDS.NO_SUGAR: return 'evening';
+    default: return 'all-day';
+  }
 }
 
 /**
@@ -139,6 +159,7 @@ export function addChallenge(name: string, icon: string): Challenge {
     enabledDate: today,
     createdDate: today,
     order: challenges.length,
+    reminderTime: 'all-day',
   };
 
   challenges.push(newChallenge);
