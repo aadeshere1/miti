@@ -10,6 +10,8 @@ export const DEFAULT_SETTINGS: Settings = {
   weekend: 'saturday',
   sidebarPosition: 'right',
   sidebarEnabled: true,
+  streakPanelPosition: 'left',
+  streakPanelEnabled: true,
   themeType: 'none',
 };
 

@@ -1,4 +1,4 @@
-// Challenge reminder banner UI — renders inline banners in the calendar container
+// Challenge reminder banner UI — renders inside the streak sidebar panel
 
 import { getActiveReminders, dismissReminder } from './challenges-reminder';
 import { toggleCompletion } from './challenges-storage';
@@ -28,9 +28,9 @@ export function renderReminders(): void {
   const reminders = getActiveReminders();
   if (reminders.length === 0) return;
 
-  const calendarContainer = document.querySelector('.calendar-container');
-  const calendarHeader = document.querySelector('.calendar-header');
-  if (!calendarContainer || !calendarHeader) return;
+  const streakSidebar = document.getElementById('streak-sidebar');
+  const sidebarContent = streakSidebar?.querySelector('.streak-sidebar-content');
+  if (!sidebarContent) return;
 
   const todayStr = getTodayNepali();
 
@@ -75,7 +75,7 @@ export function renderReminders(): void {
     banner.appendChild(text);
     banner.appendChild(actions);
 
-    // Insert after the calendar header
-    calendarHeader.insertAdjacentElement('afterend', banner);
+    // Prepend to sidebar content (before checklist)
+    sidebarContent.prepend(banner);
   });
 }

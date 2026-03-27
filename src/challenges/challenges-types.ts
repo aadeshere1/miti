@@ -84,6 +84,31 @@ export function createDefaultChallenges(todayNepali: string): Challenge[] {
   ];
 }
 
+// ── Streak stats (persisted) ──
+
+export const STREAK_STATS_KEY = 'miti:streak-stats';
+
+export interface StreakStats {
+  bestStreak: number;
+  earnedBadges: string[];
+  seenCelebrations: string[];
+}
+
+export interface Milestone {
+  id: string;
+  days: number;
+  badgeName: string;
+  badgeIcon: string;
+  quote: string;
+}
+
+export const MILESTONES: Milestone[] = [
+  { id: '3-day', days: 3, badgeName: 'Starter', badgeIcon: '🌱', quote: 'The secret of getting ahead is getting started.' },
+  { id: '7-day', days: 7, badgeName: 'Dedicated', badgeIcon: '💪', quote: 'Success is the sum of small efforts repeated day in and day out.' },
+  { id: '15-day', days: 15, badgeName: 'Champion', badgeIcon: '🏆', quote: 'Champions keep playing until they get it right.' },
+  { id: '30-day', days: 30, badgeName: 'Legend', badgeIcon: '🌟', quote: 'A month of consistency is the foundation of lasting change.' },
+];
+
 // ── Max challenges limit ──
 
 export const MAX_CHALLENGES = 10;

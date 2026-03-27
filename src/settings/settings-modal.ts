@@ -79,6 +79,32 @@ export class SettingsModal extends Modal {
           </div>
         </section>
 
+        <!-- Streak Panel Configuration Section -->
+        <section class="settings-section">
+          <h3>Streak Panel</h3>
+
+          <div class="setting-group">
+            <label class="setting-label">Position</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="streak-panel-position" value="left" />
+                <span>Left</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="streak-panel-position" value="right" />
+                <span>Right</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="streak-panel-enabled" />
+              <span>Show streak panel</span>
+            </label>
+          </div>
+        </section>
+
         <!-- Weekend Configuration Section -->
         <section class="settings-section">
           <h3>Weekend Configuration</h3>
@@ -189,6 +215,16 @@ export class SettingsModal extends Modal {
     const enabledCheckbox = content.querySelector('#sidebar-enabled') as HTMLInputElement;
     enabledCheckbox?.addEventListener('change', (e) => this.handleSidebarVisibilityToggle(e));
 
+    // Streak panel position radio buttons
+    const streakPositionRadios = content.querySelectorAll('input[name="streak-panel-position"]');
+    streakPositionRadios.forEach(radio => {
+      radio.addEventListener('change', (e) => this.handleStreakPanelPositionChange(e));
+    });
+
+    // Streak panel visibility checkbox
+    const streakEnabledCheckbox = content.querySelector('#streak-panel-enabled') as HTMLInputElement;
+    streakEnabledCheckbox?.addEventListener('change', (e) => this.handleStreakPanelVisibilityToggle(e));
+
     // Weekend configuration radio buttons
     const weekendRadios = content.querySelectorAll('input[name="weekend-config"]');
     weekendRadios.forEach(radio => {
@@ -230,6 +266,16 @@ export class SettingsModal extends Modal {
     // Set sidebar visibility
     const enabledCheckbox = content.querySelector('#sidebar-enabled') as HTMLInputElement;
     if (enabledCheckbox) enabledCheckbox.checked = settings.sidebarEnabled;
+
+    // Set streak panel position
+    const streakPositionRadio = content.querySelector(
+      `input[name="streak-panel-position"][value="${settings.streakPanelPosition || 'left'}"]`
+    ) as HTMLInputElement;
+    if (streakPositionRadio) streakPositionRadio.checked = true;
+
+    // Set streak panel visibility
+    const streakEnabledCheckbox = content.querySelector('#streak-panel-enabled') as HTMLInputElement;
+    if (streakEnabledCheckbox) streakEnabledCheckbox.checked = settings.streakPanelEnabled !== false;
 
     // Set weekend configuration
     const weekendRadio = content.querySelector(
@@ -277,6 +323,28 @@ export class SettingsModal extends Modal {
     const enabled = input.checked;
 
     updateSettings({ sidebarEnabled: enabled });
+    this.notifyChange();
+  }
+
+  /**
+   * Handle streak panel position change
+   */
+  private handleStreakPanelPositionChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const position = input.value as SidebarPosition;
+
+    updateSettings({ streakPanelPosition: position });
+    this.notifyChange();
+  }
+
+  /**
+   * Handle streak panel visibility toggle
+   */
+  private handleStreakPanelVisibilityToggle(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const enabled = input.checked;
+
+    updateSettings({ streakPanelEnabled: enabled });
     this.notifyChange();
   }
 

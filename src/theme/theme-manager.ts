@@ -83,6 +83,9 @@ export class ThemeManager {
 
     this.calendarContainer.style.backgroundColor = '';
     this.calendarContainer.style.backgroundImage = 'none';
+    this.calendarContainer.classList.remove('dark-theme');
+    const streakSidebar = document.getElementById('streak-sidebar');
+    streakSidebar?.classList.remove('dark-theme');
     this.removeImageOverlay();
   }
 
@@ -100,10 +103,13 @@ export class ThemeManager {
     const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
 
     // If background is dark (luminance < 0.5), add light overlay
+    const streakSidebar = document.getElementById('streak-sidebar');
     if (luminance < 0.5) {
       this.calendarContainer.classList.add('dark-theme');
+      streakSidebar?.classList.add('dark-theme');
     } else {
       this.calendarContainer.classList.remove('dark-theme');
+      streakSidebar?.classList.remove('dark-theme');
     }
 
     this.removeImageOverlay();
@@ -116,6 +122,7 @@ export class ThemeManager {
     if (!this.calendarContainer) return;
 
     this.calendarContainer.classList.add('image-theme');
+    document.getElementById('streak-sidebar')?.classList.add('image-theme');
   }
 
   /**
@@ -125,6 +132,7 @@ export class ThemeManager {
     if (!this.calendarContainer) return;
 
     this.calendarContainer.classList.remove('image-theme');
+    document.getElementById('streak-sidebar')?.classList.remove('image-theme');
   }
 
   /**
