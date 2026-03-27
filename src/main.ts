@@ -87,7 +87,7 @@ function init(): void {
   showLoadingIndicator('Loading holidays...');
 
   // T103: Load holidays from JSON with error handling
-  loadHolidays('/holidays/holidays.json')
+  loadHolidays('./holidays/holidays.json')
     .then(() => {
       // T117: Hide loading indicator
       hideLoadingIndicator();
