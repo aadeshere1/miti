@@ -88,7 +88,7 @@ function validateHolidayEntry(holiday: any, year: string): { valid: boolean; err
  * @param url URL to holidays JSON file
  * @returns Promise that resolves when holidays are loaded
  */
-export async function loadHolidays(url: string = '/holidays/holidays.json'): Promise<void> {
+export async function loadHolidays(url: string = './holidays/holidays.json'): Promise<void> {
   try {
     // Fetch JSON file
     const response = await fetch(url);
