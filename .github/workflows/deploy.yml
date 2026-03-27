@@ -34,15 +34,11 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Clean artifact folder
-        run: rm -rf dist/.claude
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: github-pages
-          path: dist/
-
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          clean: true
+          clean-exclude: |
+            .nojekyll
