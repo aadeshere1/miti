@@ -34,6 +34,9 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Clean artifact folder
+        run: rm -rf dist/.claude
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -41,7 +44,5 @@ jobs:
           path: dist/
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+        id: deployment
+        uses: actions/deploy-pages@v4
