@@ -1,7 +1,7 @@
 {
   "2082": [
     {
-      "name": "नयाँ वर्ष (New Year)",
+      "name": "नयाँ वर्ष / मेष संक्रान्ति (New Year / Mesh Sankranti)",
       "date": "2082-01-01",
       "description": "Nepali New Year - Beginning of Bikram Sambat 2082"
     },
@@ -12,7 +12,7 @@
     },
     {
       "name": "बुद्ध जयन्ती (Buddha Jayanti)",
-      "date": "2082-02-15",
+      "date": "2082-01-29",
       "description": "Birth anniversary of Gautama Buddha"
     },
     {
@@ -21,13 +21,23 @@
       "description": "Establishment of Federal Democratic Republic of Nepal"
     },
     {
+      "name": "नाग पञ्चमी (Nag Panchami)",
+      "date": "2082-04-13",
+      "description": "Serpent worship festival"
+    },
+    {
       "name": "जनै पूर्णिमा (Janai Purnima)",
-      "date": "2082-05-03",
+      "date": "2082-04-24",
       "description": "Sacred thread festival celebrated by Hindus"
     },
     {
-      "name": "कृष्ण जन्माष्टमी (Krishna Janmashtami)",
-      "date": "2082-05-08",
+      "name": "हरितालिका तीज (Haritalika Teej)",
+      "date": "2082-05-10",
+      "description": "Women's festival and fasting day"
+    },
+    {
+      "name": "श्री कृष्ण जन्माष्टमी (Krishna Janmashtami)",
+      "date": "2082-05-17",
       "description": "Birth anniversary of Lord Krishna"
     },
     {
@@ -36,9 +46,9 @@
       "description": "Promulgation of Constitution of Nepal"
     },
     {
-      "name": "दशैं (Dashain)",
+      "name": "घटस्थापना (Dashain Ghatasthapana)",
       "date": "2082-07-08",
-      "description": "Biggest Hindu festival in Nepal - Ghatasthapana"
+      "description": "First day of Dashain - Beginning of the festival"
     },
     {
       "name": "दशैं फूलपाती (Dashain Phulpati)",
@@ -58,52 +68,62 @@
     {
       "name": "दशैं विजया दशमी (Dashain Vijaya Dashami)",
       "date": "2082-07-18",
-      "description": "Dashain Vijaya Dashami - Main day of Dashain"
+      "description": "Main day of Dashain - Tika and Jamara"
     },
     {
-      "name": "दशैं एकादशी (Dashain Ekadashi)",
-      "date": "2082-07-19",
-      "description": "Dashain Ekadashi - 11th day of Dashain"
+      "name": "काग तिहार (Kaag Tihar)",
+      "date": "2082-07-22",
+      "description": "Tihar Day 1 - Crow Festival"
     },
     {
-      "name": "तिहार (Tihar) - कौवा तिहार",
-      "date": "2082-08-13",
-      "description": "Tihar Day 1 - Kaag Tihar (Crow Festival)"
+      "name": "कुकुर तिहार (Kukur Tihar)",
+      "date": "2082-07-23",
+      "description": "Tihar Day 2 - Dog Festival"
     },
     {
-      "name": "तिहार - कुकुर तिहार (Kukur Tihar)",
-      "date": "2082-08-14",
-      "description": "Tihar Day 2 - Kukur Tihar (Dog Festival)"
+      "name": "लक्ष्मी पूजा (Laxmi Puja)",
+      "date": "2082-07-24",
+      "description": "Tihar Day 3 - Goddess of Wealth worship"
     },
     {
-      "name": "तिहार - लक्ष्मी पूजा (Laxmi Puja)",
-      "date": "2082-08-15",
-      "description": "Tihar Day 3 - Laxmi Puja (Main day of Tihar)"
+      "name": "गोवर्धन पूजा (Govardhan Puja)",
+      "date": "2082-07-25",
+      "description": "Tihar Day 4 - Mountain worship"
     },
     {
-      "name": "तिहार - गोवर्धन पूजा (Govardhan Puja)",
-      "date": "2082-08-16",
-      "description": "Tihar Day 4 - Govardhan Puja"
-    },
-    {
-      "name": "तिहार - भाइटीका (Bhai Tika)",
-      "date": "2082-08-17",
-      "description": "Tihar Day 5 - Bhai Tika (Brother-Sister Festival)"
+      "name": "भाइटीका (Bhai Tika)",
+      "date": "2082-07-26",
+      "description": "Tihar Day 5 - Brother-Sister Festival"
     },
     {
       "name": "छठ पर्व (Chhath Parva)",
-      "date": "2082-08-20",
-      "description": "Ancient Hindu Vedic festival dedicated to Sun God"
+      "date": "2082-08-02",
+      "description": "Ancient Hindu festival dedicated to Sun God"
     },
     {
-      "name": "Martyrs day",
+      "name": "महाशिवरात्रि (Maha Shivaratri)",
+      "date": "2082-11-03",
+      "description": "Night of Lord Shiva worship"
+    },
+    {
+      "name": "शहीद दिवस (Martyrs Day)",
       "date": "2082-10-16",
       "description": "Celebration of Martyrs who sacrificed their lives for the nation"
+    },
+    {
+      "name": "फागु पूर्णिमा / होली (Fagu Poornima / Holi)",
+      "date": "2082-11-18",
+      "description": "Festival of colors - Holi celebration"
+    },
+    {
+      "name": "चैते दशैं (Chaite Dashain)",
+      "date": "2082-12-12",
+      "description": "Chaite Dashain - Spring festival"
     }
   ],
   "2083": [
     {
-      "name": "नयाँ वर्ष (New Year)",
+      "name": "नयाँ वर्ष / मेष संक्रान्ति (New Year / Mesh Sankranti)",
       "date": "2083-01-01",
       "description": "Nepali New Year - Beginning of Bikram Sambat 2083"
     },
@@ -113,8 +133,8 @@
       "description": "Celebration of democracy in Nepal"
     },
     {
-      "name": "बुद्ध जयन्ती (Buddha Jayanti)",
-      "date": "2083-02-01",
+      "name": "बुद्ध जयन्ती / चण्डी पूर्णिमा (Buddha Jayanti / Chandi Poornima)",
+      "date": "2083-01-18",
       "description": "Birth anniversary of Gautama Buddha"
     },
     {
@@ -123,9 +143,191 @@
       "description": "Establishment of Federal Democratic Republic of Nepal"
     },
     {
+      "name": "नाग पञ्चमी (Nag Panchami)",
+      "date": "2083-04-15",
+      "description": "Serpent worship festival"
+    },
+    {
+      "name": "जनै पूर्णिमा (Janai Purnima)",
+      "date": "2083-05-12",
+      "description": "Sacred thread festival"
+    },
+    {
+      "name": "हरितालिका तीज (Haritalika Teej)",
+      "date": "2083-05-29",
+      "description": "Women's festival and fasting day"
+    },
+    {
+      "name": "श्री कृष्ण जन्माष्टमी (Krishna Janmashtami)",
+      "date": "2083-05-19",
+      "description": "Birth anniversary of Lord Krishna"
+    },
+    {
       "name": "संविधान दिवस (Constitution Day)",
       "date": "2083-06-03",
       "description": "Promulgation of Constitution of Nepal"
+    },
+    {
+      "name": "घटस्थापना (Dashain Ghatasthapana)",
+      "date": "2083-06-25",
+      "description": "First day of Dashain"
+    },
+    {
+      "name": "दशैं (Dashain)",
+      "date": "2083-06-27",
+      "description": "Dashain festival begins"
+    },
+    {
+      "name": "दशैं महाअष्टमी (Dashain Maha Ashtami)",
+      "date": "2083-07-01",
+      "description": "Dashain 8th day"
+    },
+    {
+      "name": "दशैं महानवमी (Dashain Maha Navami)",
+      "date": "2083-07-03",
+      "description": "Dashain 9th day"
+    },
+    {
+      "name": "दशैं विजया दशमी (Dashain Vijaya Dashami)",
+      "date": "2083-07-04",
+      "description": "Main day of Dashain - Tika and Jamara"
+    },
+    {
+      "name": "काग तिहार (Kaag Tihar)",
+      "date": "2083-07-21",
+      "description": "Tihar Day 1 - Crow Festival"
+    },
+    {
+      "name": "कुकुर तिहार (Kukur Tihar)",
+      "date": "2083-07-22",
+      "description": "Tihar Day 2 - Dog Festival"
+    },
+    {
+      "name": "लक्ष्मी पूजा (Laxmi Puja)",
+      "date": "2083-07-23",
+      "description": "Tihar Day 3 - Goddess of Wealth worship"
+    },
+    {
+      "name": "हली तिहार / गोवर्धन पूजा (Hali Tihar / Govardhan Puja)",
+      "date": "2083-07-24",
+      "description": "Tihar Day 4 - Cow and Ox worship"
+    },
+    {
+      "name": "भाइटीका (Bhai Tika)",
+      "date": "2083-07-25",
+      "description": "Tihar Day 5 - Brother-Sister Festival"
+    },
+    {
+      "name": "छठ पर्व (Chhath Parva)",
+      "date": "2083-08-07",
+      "description": "Sun God worship festival"
+    },
+    {
+      "name": "ढंका पूर्णिमा (Dhanya Poornima)",
+      "date": "2083-09-09",
+      "description": "Harvest festival - Thanksgiving to gods"
+    },
+    {
+      "name": "शहीद दिवस (Martyrs Day)",
+      "date": "2083-10-16",
+      "description": "Celebration of Martyrs who sacrificed their lives for the nation"
+    },
+    {
+      "name": "महाशिवरात्रि (Maha Shivaratri)",
+      "date": "2083-11-22",
+      "description": "Night of Lord Shiva worship"
+    },
+    {
+      "name": "फागु पूर्णिमा / होली (Fagu Poornima / Holi)",
+      "date": "2083-12-07",
+      "description": "Festival of colors - Holi celebration"
+    }
+  ],
+  "2084": [
+    {
+      "name": "नयाँ वर्ष / मेष संक्रान्ति (New Year / Mesh Sankranti)",
+      "date": "2084-01-01",
+      "description": "Nepali New Year - Beginning of Bikram Sambat 2084"
+    },
+    {
+      "name": "लोकतन्त्र दिवस (Democracy Day)",
+      "date": "2084-01-11",
+      "description": "Celebration of democracy in Nepal"
+    },
+    {
+      "name": "बुद्ध जयन्ती (Buddha Jayanti)",
+      "date": "2084-01-07",
+      "description": "Birth anniversary of Gautama Buddha"
+    },
+    {
+      "name": "गणतन्त्र दिवस (Republic Day)",
+      "date": "2084-02-28",
+      "description": "Establishment of Federal Democratic Republic of Nepal"
+    },
+    {
+      "name": "नाग पञ्चमी (Nag Panchami)",
+      "date": "2084-04-29",
+      "description": "Serpent worship festival"
+    },
+    {
+      "name": "जनै पूर्णिमा (Janai Purnima)",
+      "date": "2084-05-14",
+      "description": "Sacred thread festival"
+    },
+    {
+      "name": "हरितालिका तीज (Haritalika Teej)",
+      "date": "2084-06-11",
+      "description": "Women's festival and fasting day"
+    },
+    {
+      "name": "श्री कृष्ण जन्माष्टमी (Krishna Janmashtami)",
+      "date": "2084-06-02",
+      "description": "Birth anniversary of Lord Krishna"
+    },
+    {
+      "name": "संविधान दिवस (Constitution Day)",
+      "date": "2084-06-03",
+      "description": "Promulgation of Constitution of Nepal"
+    },
+    {
+      "name": "दशैं (Dashain)",
+      "date": "2084-07-15",
+      "description": "Biggest Hindu festival in Nepal"
+    },
+    {
+      "name": "दशैं विजया दशमी (Dashain Vijaya Dashami)",
+      "date": "2084-07-25",
+      "description": "Main day of Dashain - Tika and Jamara"
+    },
+    {
+      "name": "तिहार (Tihar)",
+      "date": "2084-08-08",
+      "description": "Festival of lights"
+    },
+    {
+      "name": "भाइटीका (Bhai Tika)",
+      "date": "2084-08-12",
+      "description": "Brother-Sister Festival"
+    },
+    {
+      "name": "छठ पर्व (Chhath Parva)",
+      "date": "2084-08-25",
+      "description": "Sun God worship festival"
+    },
+    {
+      "name": "महाशिवरात्रि (Maha Shivaratri)",
+      "date": "2084-11-10",
+      "description": "Night of Lord Shiva worship"
+    },
+    {
+      "name": "शहीद दिवस (Martyrs Day)",
+      "date": "2084-10-16",
+      "description": "Celebration of Martyrs who sacrificed their lives for the nation"
+    },
+    {
+      "name": "फागु पूर्णिमा / होली (Fagu Poornima / Holi)",
+      "date": "2084-11-26",
+      "description": "Festival of colors - Holi celebration"
     }
   ]
 }
