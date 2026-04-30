@@ -17,6 +17,8 @@ import { getChallenges } from './challenges/challenges-storage';
 import { renderReminders } from './challenges/challenges-reminder-ui';
 import { renderTodayChecklist, refreshTodayChecklist } from './challenges/challenges-today-ui';
 import './styles/challenges.css';
+import { mountAuthWidget } from './auth/auth-ui';
+import { initAuth } from './auth/auth-service';
 
 // Global sidebar instance
 let sidebarInstance: NotesSidebar | null = null;
@@ -213,3 +215,8 @@ window.addEventListener('unhandledrejection', (event) => {
 
 // Start the application when DOM is ready
 init();
+
+// Mount auth widget and lazily initialize Firebase Auth.
+// These never block calendar rendering — Firebase loads on demand.
+mountAuthWidget();
+initAuth().catch(console.error);

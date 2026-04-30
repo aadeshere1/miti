@@ -26,6 +26,9 @@ lerna-debug.log*
 .env.local
 .env.*.local
 
+# Firebase config (contains project credentials — never commit)
+src/auth/firebase-config.ts
+
 # IDE
 .vscode/
 .idea/

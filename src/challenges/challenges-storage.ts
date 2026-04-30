@@ -5,6 +5,7 @@ import { generateUUID } from '../utils/uuid';
 import { convertGregorianToNepali } from '../calendar/conversions';
 import type { Challenge, ChallengeCompletions, ReminderTimeWindow } from './challenges-types';
 import { CHALLENGES_KEY, CHALLENGE_COMPLETIONS_PREFIX, MAX_CHALLENGES, DEFAULT_CHALLENGE_IDS, createDefaultChallenges } from './challenges-types';
+import { pushChallenges, pushCompletions } from '../sync/sync-service';
 
 // ── Helpers ──
 
@@ -60,6 +61,7 @@ function getDefaultReminderTime(challengeId: string): ReminderTimeWindow {
  */
 export function saveChallenges(challenges: Challenge[]): void {
   setItem(CHALLENGES_KEY, challenges);
+  pushChallenges(challenges).catch(() => { /* sync errors are non-fatal */ });
 }
 
 /**
@@ -112,6 +114,7 @@ export function toggleCompletion(challengeId: string, nepaliDate: string): boole
   const completions = getCompletionsForDate(nepaliDate);
   completions[challengeId] = !completions[challengeId];
   setItem(completionKey(nepaliDate), completions);
+  pushCompletions(nepaliDate, completions).catch(() => { /* sync errors are non-fatal */ });
   return completions[challengeId];
 }
 

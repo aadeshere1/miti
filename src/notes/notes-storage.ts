@@ -4,6 +4,7 @@
 import { Note, MAX_NOTE_LENGTH } from './notes-types';
 import { generateUUID } from '../utils/uuid';
 import { setItem, getItem, removeItem } from '../utils/storage';
+import { pushNotes } from '../sync/sync-service';
 
 /**
  * Get all notes for a specific date
@@ -77,6 +78,7 @@ export function addNote(nepaliDate: string, text: string): Note {
   // Save to localStorage
   const key = `miti:notes:${nepaliDate}`;
   setItem(key, notes);
+  pushNotes(nepaliDate, notes).catch(() => { /* sync errors are non-fatal */ });
 
   return note;
 }
@@ -116,6 +118,7 @@ export function updateNote(nepaliDate: string, noteId: string, text: string): No
   // Save to localStorage
   const key = `miti:notes:${nepaliDate}`;
   setItem(key, notes);
+  pushNotes(nepaliDate, notes).catch(() => { /* sync errors are non-fatal */ });
 
   return note;
 }
@@ -146,6 +149,7 @@ export function deleteNote(nepaliDate: string, noteId: string): boolean {
   } else {
     setItem(key, notes);
   }
+  pushNotes(nepaliDate, notes).catch(() => { /* sync errors are non-fatal */ });
 
   return true;
 }
@@ -190,6 +194,7 @@ export function toggleNoteCompletion(nepaliDate: string, noteId: string): Note {
   note.timestamp = note.modified;
   const key = `miti:notes:${nepaliDate}`;
   setItem(key, notes);
+  pushNotes(nepaliDate, notes).catch(() => { /* sync errors are non-fatal */ });
   return note;
 }
 
@@ -226,6 +231,7 @@ export function deleteAllNotesForDate(nepaliDate: string): number {
   if (count > 0) {
     const key = `miti:notes:${nepaliDate}`;
     removeItem(key);
+    pushNotes(nepaliDate, []).catch(() => { /* sync errors are non-fatal */ });
   }
 
   return count;

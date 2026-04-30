@@ -9,7 +9,9 @@ export default defineConfig({
     minify: 'esbuild',
     rollupOptions: {
       output: {
-        manualChunks: undefined
+        manualChunks: {
+        firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+      }
       }
     }
   },

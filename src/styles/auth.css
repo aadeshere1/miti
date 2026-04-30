@@ -1,0 +1,263 @@
+/* Auth widget and modal styles — feature 008-firebase-auth-sync */
+
+/* ── Header widget container ─────────────────────────────────────────────── */
+
+.auth-widget-container {
+  display: flex;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.auth-widget {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.auth-widget-loading {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.08);
+  animation: auth-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes auth-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ── Sign-in button ──────────────────────────────────────────────────────── */
+
+.auth-signin-btn {
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+
+.auth-signin-btn:hover {
+  background: #f0f0f0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Signed-in state ─────────────────────────────────────────────────────── */
+
+.auth-widget-signed-in {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.auth-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: default;
+  flex-shrink: 0;
+}
+
+.auth-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.auth-avatar-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: #0066cc;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.auth-signout-btn {
+  font-size: 0.75rem;
+  color: #666;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.auth-signout-btn:hover {
+  color: #333;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ── Sync indicator ──────────────────────────────────────────────────────── */
+
+.auth-sync-indicator {
+  font-size: 0.75rem;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  cursor: default;
+  transition: color 0.2s;
+}
+
+.auth-sync-syncing {
+  color: #0066cc;
+  animation: auth-spin 1s linear infinite;
+}
+
+@keyframes auth-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.auth-sync-synced { color: #2a9d5c; }
+.auth-sync-error  { color: #d9534f; }
+.auth-sync-offline { color: #888; }
+
+/* ── Auth modal ──────────────────────────────────────────────────────────── */
+
+.auth-modal-content {
+  max-width: 420px;
+}
+
+.auth-modal-description {
+  font-size: 0.875rem;
+  color: #555;
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+.auth-modal-error {
+  background: #fef0f0;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.auth-modal-actions {
+  margin-bottom: 0.75rem;
+}
+
+.auth-google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 6px;
+  background: white;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+.auth-google-btn:hover {
+  background: #f7f7f7;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.auth-google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-google-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+
+.auth-modal-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+.auth-modal-divider::before,
+.auth-modal-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+/* ── Email form ──────────────────────────────────────────────────────────── */
+
+.auth-form-group {
+  margin-bottom: 0.85rem;
+}
+
+.auth-form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 0.3rem;
+}
+
+.auth-form-group input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.auth-form-group input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.15);
+}
+
+.auth-form-group input:disabled {
+  background: #f5f5f5;
+}
+
+.auth-email-btn {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 0.25rem;
+}
+
+.auth-email-btn:hover {
+  background: #0052a3;
+}
+
+.auth-email-btn:disabled {
+  background: #80b3e0;
+  cursor: not-allowed;
+}
