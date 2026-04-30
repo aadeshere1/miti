@@ -159,6 +159,13 @@
   background: #0052a3;
 }
 
+/* Notes indicator inverted on today's blue background (T005/US1) */
+.date-cell.today .notes-indicator {
+  background: white;
+  color: #0066cc;
+  box-shadow: 0 1px 3px rgba(0, 102, 204, 0.4);
+}
+
 /* Dimmed appearance for adjacent month dates */
 .date-cell.other-month {
   opacity: 0.4;
@@ -419,6 +426,71 @@
 
 .note-delete-btn:hover {
   background: #b91c1c;
+}
+
+/* ===== Feature 001: Note Completion (T008/US2) ===== */
+
+/* Partial completion — green border on badge */
+.date-cell.has-completed-notes .notes-indicator {
+  border: 2px solid #16a34a;
+}
+
+/* Full completion — green badge */
+.date-cell.all-notes-completed .notes-indicator {
+  background: #16a34a;
+  color: white;
+  border: none;
+}
+
+/* Today + all completed — keep white background, add green border */
+.date-cell.today.all-notes-completed .notes-indicator {
+  background: white;
+  color: #16a34a;
+  border: 2px solid #16a34a;
+}
+
+/* Completed note item in modal */
+.note-item--completed {
+  opacity: 0.65;
+}
+
+.note-item--completed .note-content {
+  text-decoration: line-through;
+  color: #666;
+}
+
+/* Completion toggle button */
+.note-complete-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  background: white;
+  color: #d1d5db;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.note-complete-btn:hover {
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.note-complete-btn--active {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: white;
+}
+
+.note-complete-btn--active:hover {
+  background: #15803d;
+  border-color: #15803d;
 }
 
 /* Mobile responsive for notes */

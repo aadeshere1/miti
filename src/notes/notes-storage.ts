@@ -172,6 +172,49 @@ export function getNotesCount(nepaliDate: string): number {
 }
 
 /**
+ * Toggle the completed status of a specific note (T003)
+ * Flips note.completed and updates note.modified timestamp
+ * @param nepaliDate Date in format YYYY-MM-DD (BS)
+ * @param noteId ID of the note to toggle
+ * @returns Updated note with new completed state
+ * @throws Error if note not found
+ */
+export function toggleNoteCompletion(nepaliDate: string, noteId: string): Note {
+  const notes = getNotesForDate(nepaliDate);
+  const note = notes.find(n => n.id === noteId);
+  if (!note) {
+    throw new Error(`Note with ID ${noteId} not found`);
+  }
+  note.completed = !note.completed;
+  note.modified = Date.now();
+  note.timestamp = note.modified;
+  const key = `miti:notes:${nepaliDate}`;
+  setItem(key, notes);
+  return note;
+}
+
+/**
+ * Check if a date has at least one completed note (T004)
+ * @param nepaliDate Date in format YYYY-MM-DD (BS)
+ * @returns true if any note has completed: true
+ */
+export function hasCompletedNotes(nepaliDate: string): boolean {
+  const notes = getNotesForDate(nepaliDate);
+  return notes.some(n => n.completed === true);
+}
+
+/**
+ * Check if ALL notes for a date are completed (T004)
+ * Returns false if the date has no notes
+ * @param nepaliDate Date in format YYYY-MM-DD (BS)
+ * @returns true only if notes.length > 0 AND every note has completed: true
+ */
+export function allNotesCompleted(nepaliDate: string): boolean {
+  const notes = getNotesForDate(nepaliDate);
+  return notes.length > 0 && notes.every(n => n.completed === true);
+}
+
+/**
  * Delete all notes for a specific date
  * @param nepaliDate Date in format YYYY-MM-DD (BS)
  * @returns Number of notes deleted

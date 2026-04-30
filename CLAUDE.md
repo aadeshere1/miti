@@ -11,6 +11,8 @@ Auto-generated from all feature plans. Last updated: 2026-02-04
 - Browser localStorage — new `miti:streak-stats` key for badges/best streak; existing `miti:challenge-completions:YYYY-MM-DD` for streak calculation (006-challenge-streaks-rewards)
 - YAML (GitHub Actions workflow) + existing project (TypeScript, Node.js) + GitHub Actions (GitHub platform feature), npm (Node.js package manager) (007-github-pages-deployment)
 - N/A (CI/CD configuration only) (007-github-pages-deployment)
+- TypeScript 5.9 → ES2020+ JavaScrip + @remotemerge/nepali-date-converter (already installed), Vite (build only) (001-note-complete-today)
+- Browser localStorage — existing `miti:notes:YYYY-MM-DD` keys, no new keys (001-note-complete-today)
 
 - TypeScript (compiled to ES2020+ JavaScript) - Resolved in research.md: type safety critical for date calculations, zero runtime overhead + @remotemerge/nepali-date-converter (1.8 KB gzipped) - Resolved in research.md: smallest, accurate, TypeScript-supported library; no framework (vanilla JS output) (001-calendar-month-view)
 
@@ -31,9 +33,9 @@ npm test && npm run lint
 TypeScript (compiled to ES2020+ JavaScript) - Resolved in research.md: type safety critical for date calculations, zero runtime overhead: Follow standard conventions
 
 ## Recent Changes
+- 001-note-complete-today: Added TypeScript 5.9 → ES2020+ JavaScrip + @remotemerge/nepali-date-converter (already installed), Vite (build only)
 - 007-github-pages-deployment: Added YAML (GitHub Actions workflow) + existing project (TypeScript, Node.js) + GitHub Actions (GitHub platform feature), npm (Node.js package manager)
 - 006-challenge-streaks-rewards: Added TypeScript (compiled to ES2020+ JavaScript) — matches existing codebase + @remotemerge/nepali-date-converter (1.8 KB gzipped), Vite (build only) — no new dependencies
-- 005-ui-polish-reminders: Added TypeScript (compiled to ES2020+ JavaScript) — matches existing codebase + @remotemerge/nepali-date-converter (1.8 KB gzipped), Vite (build only) — no new dependencies
 
 
 <!-- MANUAL ADDITIONS START -->

@@ -1,6 +1,6 @@
 // Notes UI utilities - Visual indicator for dates with notes
 
-import { hasNotes, getNotesCount } from './notes-storage';
+import { hasNotes, getNotesCount, hasCompletedNotes, allNotesCompleted } from './notes-storage';
 
 /**
  * Add notes indicator badge to a date cell
@@ -16,6 +16,9 @@ export function addNotesIndicator(dateCell: HTMLElement, nepaliDate: string): vo
     existing.remove();
   }
 
+  // Remove completion classes before re-evaluating (T006)
+  dateCell.classList.remove('has-completed-notes', 'all-notes-completed');
+
   // Check if date has notes
   if (hasNotes(nepaliDate)) {
     const count = getNotesCount(nepaliDate);
@@ -28,6 +31,13 @@ export function addNotesIndicator(dateCell: HTMLElement, nepaliDate: string): vo
 
     // Add to date cell
     dateCell.appendChild(indicator);
+
+    // Apply completion state classes (T006)
+    if (allNotesCompleted(nepaliDate)) {
+      dateCell.classList.add('all-notes-completed');
+    } else if (hasCompletedNotes(nepaliDate)) {
+      dateCell.classList.add('has-completed-notes');
+    }
   }
 }
 

@@ -6,6 +6,7 @@ export interface Note {
   timestamp: number;       // Last modified (Unix ms)
   created: number;         // Creation time (Unix ms)
   modified: number;        // Last modified (Unix ms)
+  completed?: boolean;     // Completion status — absent means false (backwards compatible)
 }
 
 /**

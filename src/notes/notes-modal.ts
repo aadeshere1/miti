@@ -8,6 +8,7 @@ import {
   addNote,
   updateNote,
   deleteNote,
+  toggleNoteCompletion,
 } from './notes-storage';
 import { getHolidayForDate } from '../holidays/holidays-storage';
 
@@ -150,11 +151,12 @@ export class NotesModal extends Modal {
     const sortedNotes = [...notes].sort((a, b) => b.timestamp - a.timestamp);
 
     listContainer.innerHTML = sortedNotes.map(note => `
-      <div class="note-item" data-note-id="${note.id}">
+      <div class="note-item${note.completed ? ' note-item--completed' : ''}" data-note-id="${note.id}">
         <div class="note-content">${this.escapeHtml(note.text)}</div>
         <div class="note-meta">
           <span class="note-time">${this.formatTimestamp(note.timestamp)}</span>
           <div class="note-actions">
+            <button class="note-complete-btn${note.completed ? ' note-complete-btn--active' : ''}" data-action="complete" data-note-id="${note.id}" aria-label="Mark as complete">✓</button>
             <button class="note-action-btn" data-action="edit" data-note-id="${note.id}">
               Edit
             </button>
@@ -167,7 +169,7 @@ export class NotesModal extends Modal {
     `).join('');
 
     // Attach action listeners
-    listContainer.querySelectorAll('.note-action-btn').forEach(btn => {
+    listContainer.querySelectorAll('.note-action-btn, .note-complete-btn').forEach(btn => {
       btn.addEventListener('click', (e) => this.handleNoteAction(e));
     });
   }
@@ -182,11 +184,23 @@ export class NotesModal extends Modal {
 
     if (!noteId) return;
 
-    if (action === 'edit') {
+    if (action === 'complete') {
+      this.handleToggleCompletion(noteId);
+    } else if (action === 'edit') {
       this.handleEditNote(noteId);
     } else if (action === 'delete') {
       this.handleDeleteNote(noteId);
     }
+  }
+
+  /**
+   * Handle toggling note completion (T007)
+   */
+  private handleToggleCompletion(noteId: string): void {
+    if (!this.currentDate) return;
+    toggleNoteCompletion(this.currentDate, noteId);
+    this.loadNotes();
+    this.notifyChange();
   }
 
   /**
